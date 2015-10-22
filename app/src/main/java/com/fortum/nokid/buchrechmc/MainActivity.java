@@ -1,8 +1,11 @@
 package com.fortum.nokid.buchrechmc;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +20,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import java.io.File;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -128,7 +134,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.vorlesung1) {
-
+            readPDF(recyclerView);
         } else if (id == R.id.vorlesung2) {
 
         } else if (id == R.id.vorlesung3) {
@@ -152,6 +158,20 @@ public class MainActivity extends AppCompatActivity
         QuestionsAdapterRecycleView adapter = new QuestionsAdapterRecycleView(results,this);
 
         recyclerView.setAdapter(adapter);
+    }
+
+    private void readPDF(View v){
+        File pdfFile = new File(Environment.getExternalStorageDirectory() + "/raw/" + "testpdf.pdf");  // -> filename = maven.pdf
+        Uri path = Uri.fromFile(pdfFile);
+        Intent pdfIntent = new Intent(Intent.ACTION_VIEW);
+        pdfIntent.setDataAndType(path, "application/pdf");
+        pdfIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        try{
+            startActivity(pdfIntent);
+        }catch(ActivityNotFoundException e){
+            Toast.makeText(MainActivity.this, "No Application available to view PDF", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void initRealm(Realm realm){
