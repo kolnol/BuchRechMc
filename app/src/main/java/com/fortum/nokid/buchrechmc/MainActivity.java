@@ -161,17 +161,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void readPDF(View v){
-        File pdfFile = new File(Environment.getExternalStorageDirectory() + "/raw/" + "testpdf.pdf");  // -> filename = maven.pdf
-        Uri path = Uri.fromFile(pdfFile);
-        Intent pdfIntent = new Intent(Intent.ACTION_VIEW);
-        pdfIntent.setDataAndType(path, "application/pdf");
-        pdfIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+       startActivity(new Intent(this,PdfActivity.class));
 
-        try{
-            startActivity(pdfIntent);
-        }catch(ActivityNotFoundException e){
-            Toast.makeText(MainActivity.this, "No Application available to view PDF", Toast.LENGTH_SHORT).show();
-        }
     }
 
     private void initRealm(Realm realm){
