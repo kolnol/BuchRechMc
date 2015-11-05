@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class FullQuestionActivity extends AppCompatActivity {
 
@@ -19,8 +20,9 @@ public class FullQuestionActivity extends AppCompatActivity {
     private Button answerD;
     private Button prevButton;
     private Button nextButton;
-    Question question;
+    private Question question;
     private Realm realm;
+    private RealmResults<Question> result;
 
 
     @Override
@@ -35,9 +37,12 @@ public class FullQuestionActivity extends AppCompatActivity {
         answerD = (Button) findViewById(R.id.answerDButton);
         nextButton = (Button) findViewById(R.id.nextButton);
         prevButton = (Button) findViewById(R.id.prevButton);
+        realm = MainActivity.realm;
 
         final int position = getIntent().getIntExtra("position", 0);
-         realm = MainActivity.realm;
+        final int from = getIntent().getIntExtra("fromPosition", 0);
+        final int to = getIntent().getIntExtra("toPosition", realm.allObjects(Question.class).size());
+
 
         question=realm.allObjects(Question.class).get(position);
 
@@ -72,11 +77,11 @@ public class FullQuestionActivity extends AppCompatActivity {
             }
         });
 
-        if(position+1==realm.allObjects(Question.class).size()){
+        if(position+1==to){
             nextButton.setEnabled(false);
         }
 
-        if(position==0){
+        if(position==0||position==from){
             prevButton.setEnabled(false);
         }
 
@@ -120,6 +125,10 @@ public class FullQuestionActivity extends AppCompatActivity {
     public void onPause() {
         super.onPause();
         finish();
+    }
+
+    private void initResult(int from,int to){
+        result=realm.where(Question.class).between("id",from,to).findAllSorted("id");
     }
 
 }

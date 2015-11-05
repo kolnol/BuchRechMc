@@ -23,7 +23,6 @@ public class QuestionsAdapterRecycleView extends RecyclerView.Adapter<QuestionsA
             super(itemLayoutView);
 
             txtViewTitle = (TextView) itemLayoutView.findViewById(R.id.questionTextView);
-
         }
 
         public void setItem(Question question){

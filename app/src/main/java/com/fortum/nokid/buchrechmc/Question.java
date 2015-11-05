@@ -19,6 +19,32 @@ public class Question extends RealmObject{
     public Question() {
     }
 
+    public Question(int id, String question, RealmList<RealmString> possibleAnswers, int rightAnswerIndex, String hint) {
+        this.id = id;
+        this.question = question;
+        this.possibleAnswers = possibleAnswers;
+        this.rightAnswerIndex = rightAnswerIndex;
+        this.hint = hint;
+    }
+
+
+    public Question(int id,String question,RealmList<RealmString> possibleAnswers,int rightAnswerIndex,String kapitel,String hint){
+        this.id=id;
+        this.question=question;
+        this.possibleAnswers=possibleAnswers;
+        this.rightAnswerIndex=rightAnswerIndex;
+
+    }
+
+
+    public Question(int id,String question,RealmList<RealmString> possibleAnswers,String kapitel,int rightAnswerIndex){
+        this.id=id;
+        this.question=question;
+        this.possibleAnswers=possibleAnswers;
+        this.rightAnswerIndex=rightAnswerIndex;
+
+    }
+
     public Question(int id,String question,RealmList<RealmString> possibleAnswers,int rightAnswerIndex){
         this.id=id;
         this.question=question;
