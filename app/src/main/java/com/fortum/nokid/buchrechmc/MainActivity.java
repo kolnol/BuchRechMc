@@ -18,6 +18,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmList;
@@ -67,6 +69,7 @@ public class MainActivity extends AppCompatActivity
                 .schemaVersion(0)
                 .migration(new Migration())
                 .build();
+        //realm.deleteRealm(config1);
 
         realm = Realm.getInstance(config1);
 
@@ -136,10 +139,6 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.vorlesung4) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -169,7 +168,7 @@ public class MainActivity extends AppCompatActivity
         answers.add(new RealmString("Finanzbuchhaltung"));
         answers.add(new RealmString("Planungsrechnung"));
 
-        Question question1 = new Question(0,questionStr1,answers,0);
+        Question question1 = new Question(0,questionStr1,answers,2);
 
         String questionStr2 = "Das externe Rechnungswesen...";
         RealmList<RealmString> answers2 = new RealmList<>();
@@ -178,7 +177,7 @@ public class MainActivity extends AppCompatActivity
         answers2.add(new RealmString("wird durch Wirtschaftsprüfer festgelegt"));
         answers2.add(new RealmString("unterliegtgesetzlichenVorschriften"));
 
-        Question question2 = new Question(1,questionStr2,answers2,0);
+        Question question2 = new Question(1,questionStr2,answers2,3);
 
         String questionStr3 = "Wer ist kein Adressat des Jahresabschlusses?";
         RealmList<RealmString> answers3 = new RealmList<>();
@@ -187,7 +186,7 @@ public class MainActivity extends AppCompatActivity
         answers3.add(new RealmString("Unternehmensleitung"));
         answers3.add(new RealmString("Abschlussprüfer"));
 
-        Question question3 = new Question(2,questionStr3,answers3,0);
+        Question question3 = new Question(2,questionStr3,answers3,3);
 
         String questionStr4 = "Was ist keine Aufgabe des externen Rechnungswesens?";
         RealmList<RealmString> answers4 = new RealmList<>();
@@ -196,7 +195,7 @@ public class MainActivity extends AppCompatActivity
         answers4.add(new RealmString("Rechnungslegung/BilanzierungaufgrundgesetzlicherVorschriften"));
         answers4.add(new RealmString("Erstellung des Jahresabschlusses"));
 
-        Question question4 = new Question(3,questionStr4,answers4,0);
+        Question question4 = new Question(3,questionStr4,answers4,1);
 
         String questionStr5 = "Das Betriebsergebnis ergibt sich durch Saldierung von ...";
         RealmList<RealmString> answers5 = new RealmList<>();
@@ -215,7 +214,7 @@ public class MainActivity extends AppCompatActivity
         answers6.add(new RealmString("den Finanzsaldo"));
         answers6.add(new RealmString("den Zahlungssaldo"));
 
-        Question question6 = new Question(5,questionStr6,answers6,0);
+        Question question6 = new Question(5,questionStr6,answers6,2);
         ////
 
         ////
@@ -237,19 +236,9 @@ public class MainActivity extends AppCompatActivity
         answers8.add(new RealmString("Monetärer Wert der in einer Periode einem Unternehmen zugegangenen Wirtschaftsgüter"));
         answers8.add(new RealmString("Zahlungsmittel, die von einem Unternehmen innerhalb einer Periode abfließen"));
 
-        Question question8 = new Question(7,questionStr8,answers8,0);
+        Question question8 = new Question(7,questionStr8,answers8,2);
         ////
 
-        ////
-        String questionStr99999999 = "";
-        RealmList<RealmString> answers99999999 = new RealmList<>();
-        answers99999999.add(new RealmString(""));
-        answers99999999.add(new RealmString(""));
-        answers99999999.add(new RealmString(""));
-        answers99999999.add(new RealmString(""));
-
-        Question question999999999 = new Question(7,questionStr8,answers8,0);
-        ////
 
         ////
         String questionStr9 = "„Monetärer Wert der in einer Periode einem Unternehmen zugegangenen Wirtschaftsgüter“ ist die Definition für ...";
@@ -303,7 +292,7 @@ public class MainActivity extends AppCompatActivity
         answers13.add(new RealmString("Einnahme"));
         answers13.add(new RealmString("Ausgabe"));
 
-        Question question13 = new Question(12,questionStr13,answers13,0,"￼Hinweis:" + "Hier ist immer die Annahme, dass das Wirtschaftsgut gleich dem K");
+        Question question13 = new Question(12,questionStr13,answers13,3,"￼Hinweis:" + "Hier ist immer die Annahme, dass das Wirtschaftsgut gleich dem K");
         ////
 
         ////
@@ -314,7 +303,7 @@ public class MainActivity extends AppCompatActivity
         answers14.add(new RealmString("Einnahme"));
         answers14.add(new RealmString("Einzahlung und Einnahme"));
 
-        Question question14 = new Question(13,questionStr14,answers14,0);
+        Question question14 = new Question(13,questionStr14,answers14,1);
         ////
 
         ////
@@ -347,7 +336,7 @@ public class MainActivity extends AppCompatActivity
         answers17.add(new RealmString("Aufwand"));
         answers17.add(new RealmString("Auszahlung,Ausgabe und Aufwand"));
 
-        Question question17 = new Question(16,questionStr17,answers17,0);
+        Question question17 = new Question(16,questionStr17,answers17,1);
         ////
 
         ////
@@ -358,7 +347,7 @@ public class MainActivity extends AppCompatActivity
         answers18.add(new RealmString("Aufwand"));
         answers18.add(new RealmString("Auszahlung,Ausgabe und Aufwand"));
 
-        Question question18 = new Question(17,questionStr18,answers18,0);
+        Question question18 = new Question(17,questionStr18,answers18,2);
         ////
 
         ////
@@ -369,7 +358,7 @@ public class MainActivity extends AppCompatActivity
         answers19.add(new RealmString("Aufwand"));
         answers19.add(new RealmString("Auszahlung,Ausgabe und Aufwand"));
 
-        Question question19 = new Question(18,questionStr19,answers19,0);
+        Question question19 = new Question(18,questionStr19,answers19,2);
         ////
 
         ////
@@ -380,7 +369,7 @@ public class MainActivity extends AppCompatActivity
         answers20.add(new RealmString("Aufwand"));
         answers20.add(new RealmString("Auszahlung,Ausgabe und Aufwand"));
 
-        Question question20 = new Question(19,questionStr20,answers20,0);
+        Question question20 = new Question(19,questionStr20,answers20,2);
         ////
 
         ////
@@ -402,7 +391,7 @@ public class MainActivity extends AppCompatActivity
         answers22.add(new RealmString("Aufwand"));
         answers22.add(new RealmString("Auszahlung,Ausgabe und Aufwand"));
 
-        Question question22 = new Question(21,questionStr22,answers22,0);
+        Question question22 = new Question(21,questionStr22,answers22,2);
         ////
 
         ////
@@ -413,7 +402,7 @@ public class MainActivity extends AppCompatActivity
         answers23.add(new RealmString("Aufwand"));
         answers23.add(new RealmString("Auszahlung,Ausgabe und Aufwand"));
 
-        Question question23 = new Question(22,questionStr23,answers23,0);
+        Question question23 = new Question(22,questionStr23,answers23,3);
         ////
 
         ////
@@ -458,7 +447,7 @@ public class MainActivity extends AppCompatActivity
         answers27.add(new RealmString("Einnahme"));
         answers27.add(new RealmString("Ausgabe"));
 
-        Question question27 = new Question(26,questionStr27,answers27,0);
+        Question question27 = new Question(26,questionStr27,answers27,1);
         ////
 
         ////
@@ -480,7 +469,7 @@ public class MainActivity extends AppCompatActivity
         answers29.add(new RealmString("Ertrag"));
         answers29.add(new RealmString("Aufwand"));
 
-        Question question29 = new Question(28,questionStr29,answers29,0);
+        Question question29 = new Question(28,questionStr29,answers29,2);
         ////
 
         ////
@@ -502,7 +491,7 @@ public class MainActivity extends AppCompatActivity
         answers31.add(new RealmString("Ausgabe"));
         answers31.add(new RealmString("Keine der vorherigen Antworten ist richtig"));
 
-        Question question31 = new Question(30,questionStr31,answers31,0,"￼Hinweis:" + "es handelt sich um eine Einnahme und Einzahlung; aber Einnahme nicht als");
+        Question question31 = new Question(30,questionStr31,answers31,2,"￼Hinweis:" + "es handelt sich um eine Einnahme und Einzahlung; aber Einnahme nicht als");
         ////
 
         ////
@@ -513,7 +502,7 @@ public class MainActivity extends AppCompatActivity
         answers32.add(new RealmString("Ertrag"));
         answers32.add(new RealmString("Aufwand"));
 
-        Question question32 = new Question(31,questionStr32,answers32,0);
+        Question question32 = new Question(31,questionStr32,answers32,3);
         ////
 
         ////
@@ -557,7 +546,7 @@ public class MainActivity extends AppCompatActivity
         answers36.add(new RealmString("das HGB, GoB und IFRS"));
         answers36.add(new RealmString("das HGB, GoB, IFRS und US-GAAP"));
 
-        Question question36 = new Question(35,questionStr36,answers36,"1.2",0);
+        Question question36 = new Question(35,questionStr36,answers36,"1.2",1);
         ////
 
         ////
@@ -568,7 +557,7 @@ public class MainActivity extends AppCompatActivity
         answers37.add(new RealmString("IFRS"));
         answers37.add(new RealmString("US-GAAP"));
 
-        Question question37 = new Question(36,questionStr37,answers37,"1.2",0);
+        Question question37 = new Question(36,questionStr37,answers37,"1.2",1);
         ////
 
         ////
@@ -579,7 +568,7 @@ public class MainActivity extends AppCompatActivity
         answers38.add(new RealmString("muss sinnvoll abgewogen werden, welches Gesetz Anwendung findet."));
         answers38.add(new RealmString("hatdasAktGVorrang."));
 
-        Question question38 = new Question(37,questionStr38,answers38,"1.2",0);
+        Question question38 = new Question(37,questionStr38,answers38,"1.2",3);
         ////
 
         ////
@@ -590,7 +579,7 @@ public class MainActivity extends AppCompatActivity
         answers39.add(new RealmString("Ja, PublG und - möglicherweise - branchenspezifische Regelungen."));
         answers39.add(new RealmString("Möglicherweise branchenspezifische Regelungen."));
 
-        Question question39 = new Question(38,questionStr39,answers39,"1.2",0);
+        Question question39 = new Question(38,questionStr39,answers39,"1.2",2);
         ////
 
         ////
@@ -601,7 +590,7 @@ public class MainActivity extends AppCompatActivity
         answers40.add(new RealmString("kann einen Konzernabschluss erstellen, um ihr Image aufzuwerten."));
         answers40.add(new RealmString("muss sowohl einen Einzelabschluss als auch einen Konzernabschluss erstellen."));
 
-        Question question40 = new Question(39,questionStr40,answers40,"1.2",0);
+        Question question40 = new Question(39,questionStr40,answers40,"1.2",1);
         ////
 
         ////
@@ -644,18 +633,18 @@ public class MainActivity extends AppCompatActivity
         answers44.add(new RealmString("muss einen Einzelabschluss nach HGB und einen Konzernabschluss nach IFRS erstellen."));
         answers44.add(new RealmString("muss einen Einzelabschluss nach HGB und einen Konzernabschluss nach HGB und IFRS erstellen."));
 
-        Question question44 = new Question(43,questionStr44,answers44,"1.2",0);
+        Question question44 = new Question(43,questionStr44,answers44,"1.2",2);
         ////
 
         ////
         String questionStr45 = "Für einen Einzelunternehmer gelten handelsrechtlich ...";
         RealmList<RealmString> answers45 = new RealmList<>();
-        answers45.add(new RealmString("nur die §§ 264 bis 289a HGB."));//TODO
+        answers45.add(new RealmString("nur die §§ 264 bis 289a HGB."));
         answers45.add(new RealmString("nur die §§ 238 bis 263 HGB."));
         answers45.add(new RealmString("nur die §§ 238 bis 289a HGB."));
         answers45.add(new RealmString("die §§ 238 bis 335 HGB."));
 
-        Question question45 = new Question(44,questionStr45,answers45,0,"1.2","Anmerkung:" +
+        Question question45 = new Question(44,questionStr45,answers45,1,"1.2","Anmerkung:" +
                 "Handelsrechtlich heißt, dass hier nur Vorschriften des HGB betrachtet werden." +
                 "Anmerkung für Nicht-Muttersprachler:" +
                 "„Nur die“ bedeutet, dass keine weiteren Gesetzestexte außer die Genannten gelten. „Nur die“ macht die Antwort eindeutig, angenommen die größte Teilmenge (hier Nummer D) wäre korrekt. Ohne dem Wort „nur“ in den ersten drei Antwortmöglichkeiten wären alle vier Fragen korrekt.");
@@ -669,7 +658,7 @@ public class MainActivity extends AppCompatActivity
         answers46.add(new RealmString("nur die §§ 238 bis 289a HGB."));
         answers46.add(new RealmString("die §§ 238 bis 335 HGB."));
 
-        Question question46 = new Question(45,questionStr46,answers46,"1.2",0);
+        Question question46 = new Question(45,questionStr46,answers46,"1.2",2);
         ////
 
         ////
@@ -680,7 +669,7 @@ public class MainActivity extends AppCompatActivity
         answers47.add(new RealmString("nur die §§ 238 bis 289a HGB."));
         answers47.add(new RealmString("die §§ 238 bis 335 HGB."));
 
-        Question question47 = new Question(46,questionStr47,answers47,"1.2",0);
+        Question question47 = new Question(46,questionStr47,answers47,"1.2",1);
         ////
 
 
@@ -692,7 +681,7 @@ public class MainActivity extends AppCompatActivity
         answers48.add(new RealmString("sind in den §§ 263 bis 289a HGB geregelt."));
         answers48.add(new RealmString("bauen auf den Normen auf, die für alle Kaufleute und für Kapitalgesellschaften gelten."));
 
-        Question question48 = new Question(47,questionStr48,answers48,"1.2",0);
+        Question question48 = new Question(47,questionStr48,answers48,"1.2",3);
         ////
 
         ////
@@ -703,7 +692,7 @@ public class MainActivity extends AppCompatActivity
         answers49.add(new RealmString("nur die §§ 238 bis 289a HGB."));
         answers49.add(new RealmString("die §§ 238 bis 335 HGB."));
 
-        Question question49 = new Question(48,questionStr49,answers49,"1.2",0);
+        Question question49 = new Question(48,questionStr49,answers49,"1.2",2);
         ////
 
         ////
@@ -714,7 +703,7 @@ public class MainActivity extends AppCompatActivity
         answers50.add(new RealmString("nur die §§ 238 bis 289a HGB."));
         answers50.add(new RealmString("die §§ 238 bis 335 HGB."));
 
-        Question question50 = new Question(49,questionStr50,answers50,"1.2",0);
+        Question question50 = new Question(49,questionStr50,answers50,"1.2",3);
         ////
 
         ////
@@ -725,7 +714,7 @@ public class MainActivity extends AppCompatActivity
         answers51.add(new RealmString("nur die §§ 238 bis 289a HGB."));
         answers51.add(new RealmString("nur die §§ 238 bis 289a HGB und das GmbHG."));
 
-        Question question51 = new Question(50,questionStr51,answers51,"1.2",0);
+        Question question51 = new Question(50,questionStr51,answers51,"1.2",3);
         ////
 
         ////
@@ -747,7 +736,7 @@ public class MainActivity extends AppCompatActivity
         answers53.add(new RealmString("Nein, die §§ 264 ff. HGB müssen angewandt werden. Es besteht Pflicht und nicht Wahlrecht."));
         answers53.add(new RealmString("Grundsätzlich ja, jedoch freiwillig; fraglich jedoch bei Steuerabgrenzung (§ 274 HGB)."));
 
-        Question question53 = new Question(52,questionStr53,answers53,"1.2",0);
+        Question question53 = new Question(52,questionStr53,answers53,"1.2",3);
         ////
 
         ////
@@ -758,7 +747,7 @@ public class MainActivity extends AppCompatActivity
         answers54.add(new RealmString("ein Formkaufmann gemäß § 6 HGB."));
         answers54.add(new RealmString("ein Kann-Kaufmann gemäß § 2 HGB."));
 
-        Question question54 = new Question(53,questionStr54,answers54,"1.2",0);
+        Question question54 = new Question(53,questionStr54,answers54,"1.2",2);
         ////
 
         ////
@@ -769,7 +758,7 @@ public class MainActivity extends AppCompatActivity
         answers55.add(new RealmString("ein Formkaufmann gemäß § 6 HGB."));
         answers55.add(new RealmString("ein Kann-Kaufmann gemäß § 2 HGB."));
 
-        Question question55 = new Question(54,questionStr55,answers55,"1.2",0);
+        Question question55 = new Question(54,questionStr55,answers55,"1.2",2);
         ////
 
         ////
@@ -780,7 +769,7 @@ public class MainActivity extends AppCompatActivity
         answers56.add(new RealmString("ein Formkaufmann gemäß § 6 HGB."));
         answers56.add(new RealmString("ein Kann-Kaufmann gemäß § 2 HGB."));
 
-        Question question56 = new Question(55,questionStr56,answers56,"1.2",0);
+        Question question56 = new Question(55,questionStr56,answers56,"1.2",2);
         ////
 
         ////
@@ -791,7 +780,7 @@ public class MainActivity extends AppCompatActivity
         answers57.add(new RealmString("ein Formkaufmann gemäß § 6 HGB."));
         answers57.add(new RealmString("ein Kann-Kaufmann gemäß § 2 HGB."));
 
-        Question question57 = new Question(56,questionStr57,answers57,"1.2",0);
+        Question question57 = new Question(56,questionStr57,answers57,"1.2",1);
         ////
 
         ////
@@ -802,7 +791,7 @@ public class MainActivity extends AppCompatActivity
         answers58.add(new RealmString("ein Formkaufmann gemäß § 6 HGB."));
         answers58.add(new RealmString("ein Kann-Kaufmann gemäß § 2 HGB."));
 
-        Question question58 = new Question(57,questionStr58,answers58,"1.2",0);
+        Question question58 = new Question(57,questionStr58,answers58,"1.2",1);
         ////
 
         ////
@@ -813,7 +802,7 @@ public class MainActivity extends AppCompatActivity
         answers59.add(new RealmString("ein Formkaufmann gemäß § 6 HGB."));
         answers59.add(new RealmString("ein Kann-Kaufmann gemäß § 2 HGB."));
 
-        Question question59 = new Question(58,questionStr59,answers59,"1.2",0);
+        Question question59 = new Question(58,questionStr59,answers59,"1.2",1);
         ////
 
         ////
@@ -824,7 +813,7 @@ public class MainActivity extends AppCompatActivity
         answers60.add(new RealmString("Richtigkeit und Willkürfreiheit"));
         answers60.add(new RealmString("Klarheit und Übersichtlichkeit"));
 
-        Question question60 = new Question(59,questionStr60,answers60,"1.2",0);
+        Question question60 = new Question(59,questionStr60,answers60,"1.2",1);
         ////
 
         ////
@@ -835,7 +824,7 @@ public class MainActivity extends AppCompatActivity
         answers61.add(new RealmString("Prinzip der Periodenabgrenzung"));
         answers61.add(new RealmString("Einzelbewertung"));
 
-        Question question61 = new Question(60,questionStr61,answers61,"1.2",0);
+        Question question61 = new Question(60,questionStr61,answers61,"1.2",3);
         ////
 
         ////
@@ -846,7 +835,7 @@ public class MainActivity extends AppCompatActivity
         answers62.add(new RealmString("Imparitätsprinzip"));
         answers62.add(new RealmString("Fortführungsgrundsatz"));
 
-        Question question62 = new Question(61,questionStr62,answers62,"1.2",0);
+        Question question62 = new Question(61,questionStr62,answers62,"1.2",2);
         ////
 
 
@@ -914,6 +903,50 @@ public class MainActivity extends AppCompatActivity
         realm.copyToRealm(question60);
         realm.copyToRealm(question61);
         realm.copyToRealm(question62);
+        realm.commitTransaction();
+
+        initVorlesungen();
+    }
+
+    private void initVorlesungen() {
+        int [] arr2={4,6,8,9,17,18,21,22,24,33,34,36,41,46,49};
+        RealmList<IntegerRealm> arr = new RealmList<>();
+
+        for(int i = 0;i<arr2.length;i++){
+            arr.add(new IntegerRealm(arr2[i]));
+        }
+
+        RealmList<Page> pages = new RealmList<>();
+        pages.add(new Page(1,3));
+        pages.add(new Page(4,4));
+        pages.add(new Page(5,6));
+        pages.add(new Page(7,8));
+        pages.add(new Page(9,16));
+        pages.add(new Page(17,26));
+        pages.add(new Page(27,30));
+        pages.add(new Page(31,32));
+        pages.add(new Page(33,34));
+        pages.add(new Page(35,36));
+        pages.add(new Page(37,38));
+        pages.add(new Page(39,43));
+        pages.add(new Page(44,52));
+        pages.add(new Page(59,61));
+        pages.add(new Page(53,58));
+
+        VorlesungPDF v = new VorlesungPDF(0,"vorlesung1.pdf",arr,pages);
+
+
+
+        RealmList<IntegerRealm> arrV2 = new RealmList<>();
+        RealmList<Page> pagesV2 = new RealmList<>();
+
+        VorlesungPDF v2 = new VorlesungPDF(0,"vorlesung2.pdf",arrV2,pagesV2);
+
+
+
+        realm.beginTransaction();
+        realm.copyToRealm(v);
+        realm.copyToRealm(v2);
         realm.commitTransaction();
     }
 

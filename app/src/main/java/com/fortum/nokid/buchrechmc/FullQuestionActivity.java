@@ -43,8 +43,8 @@ public class FullQuestionActivity extends AppCompatActivity {
         final int from = getIntent().getIntExtra("fromPosition", 0);
         final int to = getIntent().getIntExtra("toPosition", realm.allObjects(Question.class).size());
 
-
-        question=realm.allObjects(Question.class).get(position);
+        result=realm.where(Question.class).between("id",from,to).findAllSorted("id");
+        question=result.get(position);
 
         textView.setText(question.getQuestion());
         answerA.setText(question.getPossibleAnswers().get(0).getString());
@@ -77,38 +77,42 @@ public class FullQuestionActivity extends AppCompatActivity {
             }
         });
 
-        if(position+1==to){
+        if(position+1==result.size()||from==to){
             nextButton.setEnabled(false);
         }
 
-        if(position==0||position==from){
+        if(position==0||from==to){
             prevButton.setEnabled(false);
         }
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToNextQuestion(v, position);
+                goToNextQuestion(v, position,from,to);
             }
         });
 
         prevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToPrevQuestion(v,position);
+                goToPrevQuestion(v, position,from,to);
             }
         });
     }
 
-    private void goToPrevQuestion(View v, int position) {
+    private void goToPrevQuestion(View v, int position,int from,int to) {
         Intent intent = new Intent(MainActivity.contextMain,FullQuestionActivity.class);
         intent.putExtra("position", position-1);
+        intent.putExtra("fromPosition", from);
+        intent.putExtra("toPosition", to);
         MainActivity.contextMain.startActivity(intent);
     }
 
-    private void goToNextQuestion(View v,int position) {
+    private void goToNextQuestion(View v,int position,int from,int to) {
         Intent intent = new Intent(MainActivity.contextMain,FullQuestionActivity.class);
         intent.putExtra("position", position+1);
+        intent.putExtra("fromPosition", from);
+        intent.putExtra("toPosition", to);
         MainActivity.contextMain.startActivity(intent);
     }
 
@@ -128,7 +132,7 @@ public class FullQuestionActivity extends AppCompatActivity {
     }
 
     private void initResult(int from,int to){
-        result=realm.where(Question.class).between("id",from,to).findAllSorted("id");
+
     }
 
 }
