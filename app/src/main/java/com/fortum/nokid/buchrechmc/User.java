@@ -3,9 +3,7 @@ package com.fortum.nokid.buchrechmc;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 
-/**
- * Created by Nokid on 20/10/15.
- */
+
 public class User extends RealmObject{
     private String name;
     private int score;

@@ -8,7 +8,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 
 public class FullQuestionActivity extends AppCompatActivity {
@@ -23,6 +28,9 @@ public class FullQuestionActivity extends AppCompatActivity {
     private Question question;
     private Realm realm;
     private RealmResults<Question> result;
+    private int countQuestions;
+    private boolean isSprint;
+    private Sprint sprint;
 
 
     @Override
@@ -42,16 +50,25 @@ public class FullQuestionActivity extends AppCompatActivity {
         final int position = getIntent().getIntExtra("position", 0);
         final int from = getIntent().getIntExtra("fromPosition", 0);
         final int to = getIntent().getIntExtra("toPosition", realm.allObjects(Question.class).size());
+        isSprint = getIntent().getBooleanExtra("isSprint", false);
 
-        result=realm.where(Question.class).between("id",from,to).findAllSorted("id");
+        //Init DB and find Question
+        if(!isSprint){
+            result=realm.where(Question.class).between("id",from,to).findAllSorted("id");
+        }else{
+            sprint=realm.allObjects(Sprint.class).last();
+            result=sprint.getQuestions().where().findAll();
+        }
         question=result.get(position);
 
+        //Set Question and answers to view
         textView.setText(question.getQuestion());
         answerA.setText(question.getPossibleAnswers().get(0).getString());
         answerB.setText(question.getPossibleAnswers().get(1).getString());
         answerC.setText(question.getPossibleAnswers().get(2).getString());
         answerD.setText(question.getPossibleAnswers().get(3).getString());
 
+        //Set for every answer function to check Answer
         answerA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,22 +90,16 @@ public class FullQuestionActivity extends AppCompatActivity {
         answerD.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isRight(answerD,3);
+                isRight(answerD, 3);
             }
         });
 
-        if(position+1==result.size()||from==to){
-            nextButton.setEnabled(false);
-        }
 
-        if(position==0||from==to){
-            prevButton.setEnabled(false);
-        }
-
+        //Set Actions to next and previous buttons
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToNextQuestion(v, position,from,to);
+                goToNextQuestion(v, position, from, to);
             }
         });
 
@@ -98,31 +109,103 @@ public class FullQuestionActivity extends AppCompatActivity {
                 goToPrevQuestion(v, position,from,to);
             }
         });
+
+        //Check if there are another Question or it is end of the list
+        if(position+1==result.size()||from==to||(0==countQuestions-1)){
+            if(isSprint){
+                nextButton.setText("Finish");
+                nextButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(v.getContext(),SprintResultActivity.class);
+                        v.getContext().startActivity(intent);
+                    }
+                });
+
+            }else{
+                nextButton.setEnabled(false);
+            }
+        }
+
+        //Check behaviour for previous button
+        if(position==0||from==to||isSprint){
+            prevButton.setEnabled(false);
+        }
+
     }
 
     private void goToPrevQuestion(View v, int position,int from,int to) {
         Intent intent = new Intent(MainActivity.contextMain,FullQuestionActivity.class);
-        intent.putExtra("position", position-1);
+        intent.putExtra("position", position - 1);
         intent.putExtra("fromPosition", from);
         intent.putExtra("toPosition", to);
+
         MainActivity.contextMain.startActivity(intent);
     }
 
     private void goToNextQuestion(View v,int position,int from,int to) {
         Intent intent = new Intent(MainActivity.contextMain,FullQuestionActivity.class);
-        intent.putExtra("position", position+1);
+        intent.putExtra("position", position + 1);
         intent.putExtra("fromPosition", from);
         intent.putExtra("toPosition", to);
+        if(isSprint){
+            intent.putExtra("isSprint",true);
+        }
         MainActivity.contextMain.startActivity(intent);
     }
 
     public void isRight(Button button,int answer){
         if(question.getRightAnswerIndex()==answer){
+
+            realm.beginTransaction();
+            question.setIsRightAnswered(true);
+
+            if(isSprint){
+                sprint.getAnswerTrigger().add(new RealmBoolean(true));
+                realm.copyToRealm(sprint);
+            }
+
+            realm.commitTransaction();
             button.setBackgroundColor(getResources().getColor(R.color.rightAnswerColor));
         }else{
-            button.setBackgroundColor(getResources().getColor(R.color.wrongAnswerColor));
-        }
+            realm.beginTransaction();
+            question.setIsRightAnswered(false);
 
+            if(isSprint) {
+                //RealmList<RealmBoolean> trigger =
+                        sprint.getAnswerTrigger().add(new RealmBoolean(false));
+                //trigger.add(new RealmBoolean(false));
+               //sprint.setAnswerTrigger(trigger);
+                realm.copyToRealm(sprint);
+            }
+
+            realm.commitTransaction();
+            button.setBackgroundColor(getResources().getColor(R.color.wrongAnswerColor));
+
+            switch (question.getRightAnswerIndex()){
+                case 0:
+                    button=answerA;
+                    break;
+                case 1:
+                    button=answerB;
+                    break;
+                case 2:
+                    button=answerC;
+                    break;
+                case 3:
+                    button=answerD;
+                    break;
+                default:
+                    throw new IllegalStateException();
+
+            }
+            button.setBackgroundColor(getResources().getColor(R.color.rightAnswerColor));
+
+        }
+        answerA.setClickable(false);
+        answerB.setClickable(false);
+        answerC.setClickable(false);
+        answerD.setClickable(false);
     }
 
     @Override
@@ -130,9 +213,4 @@ public class FullQuestionActivity extends AppCompatActivity {
         super.onPause();
         finish();
     }
-
-    private void initResult(int from,int to){
-
-    }
-
 }

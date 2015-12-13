@@ -1,4 +1,19 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
 
 android {
     compileSdkVersion 22
@@ -8,8 +23,8 @@ android {
         applicationId "com.fortum.nokid.buchrechmc"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 101
-        versionName "1.01"
+        versionCode 125
+        versionName "1.25"
     }
     buildTypes {
         release {
@@ -27,4 +42,16 @@ dependencies {
     compile 'io.realm:realm-android:0.83.1'
     compile 'com.android.support:recyclerview-v7:22.2.1'
     compile 'com.joanzapata.pdfview:android-pdfview:1.0.4@aar'
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
+        transitive = true;
+    }
+    compile('com.crashlytics.sdk.android:crashlytics-ndk:1.1.2@aar') {
+        transitive = true;
+    }
+}
+
+crashlytics {
+    enableNdk true
+    androidNdkOut 'src/main/obj'
+    androidNdkLibsOut 'src/main/libs'
 }

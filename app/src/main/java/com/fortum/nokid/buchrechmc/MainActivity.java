@@ -18,12 +18,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.ndk.CrashlyticsNdk;
+import io.fabric.sdk.android.Fabric;
 import java.util.ArrayList;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmList;
 import io.realm.RealmResults;
+import io.realm.exceptions.RealmMigrationNeededException;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -37,6 +41,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
         setContentView(R.layout.activity_main);
 
         contextMain=this;
@@ -48,8 +53,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Coming Soon :)", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                startSprint();
             }
         });
 
@@ -69,14 +73,31 @@ public class MainActivity extends AppCompatActivity
                 .schemaVersion(0)
                 .migration(new Migration())
                 .build();
-        //realm.deleteRealm(config1);
 
-        realm = Realm.getInstance(config1);
+        try{
+            realm = Realm.getInstance(config1);
+        }catch (RealmMigrationNeededException e){
+            realm.deleteRealm(config1);
+            realm = Realm.getInstance(config1);
+            initRealm(realm);
+        }
 
-        initRealm(realm);
+        //Check if it is first run
+        Boolean isFirstRun=getSharedPreferences("Preference",MODE_PRIVATE)
+                .getBoolean("isFirstRun", true);
+        //If it is first run the we have to initialize the realm database
+        if(isFirstRun){
+            initRealm(realm);
+            //Set the trigger to false
+            getSharedPreferences("Preference",MODE_PRIVATE).edit()
+                    .putBoolean("isFirstRun",false).commit();
+        }
+
+
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        //TODO 
         results = realm.where(Question.class).between("id", 0, realm.allObjects(Question.class).size() - 1).findAll();
 
         QuestionsAdapterRecycleView adapter = new QuestionsAdapterRecycleView(results,this);
@@ -118,10 +139,16 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            goToQuestionBucket();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void goToQuestionBucket() {
+        Intent intent = new Intent(this,BucketListActivity.class);
+        startActivity(intent);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -161,6 +188,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initRealm(Realm realm){
+
+
         String questionStr1 = "Welcher Teilbereich des Rechnungswesens ist dem externen Rechnungswesen zugeordnet?";
         RealmList<RealmString> answers = new RealmList<>();
         answers.add(new RealmString("Statistik-undVergleichsrechnung"));
@@ -903,6 +932,7 @@ public class MainActivity extends AppCompatActivity
         realm.copyToRealm(question60);
         realm.copyToRealm(question61);
         realm.copyToRealm(question62);
+
         realm.commitTransaction();
 
         initVorlesungen();
@@ -951,7 +981,8 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    private void sprint(){
-        
+    private void startSprint(){
+        Intent intent = new Intent(this,SprintSetupActivity.class);
+        startActivity(intent);
     }
 }
