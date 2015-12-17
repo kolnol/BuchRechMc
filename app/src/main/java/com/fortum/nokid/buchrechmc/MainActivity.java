@@ -68,19 +68,8 @@ public class MainActivity extends AppCompatActivity
 
         recyclerView=(RecyclerView)findViewById(R.id.questionsList);
 
-        RealmConfiguration config1 = new RealmConfiguration.Builder(this)
-                .name("default")
-                .schemaVersion(0)
-                .migration(new Migration())
-                .build();
 
-        try{
-            realm = Realm.getInstance(config1);
-        }catch (RealmMigrationNeededException e){
-            realm.deleteRealm(config1);
-            realm = Realm.getInstance(config1);
-            initRealm(realm);
-        }
+        initDatabase();
 
         //Check if it is first run
         Boolean isFirstRun=getSharedPreferences("Preference",MODE_PRIVATE)
@@ -105,12 +94,25 @@ public class MainActivity extends AppCompatActivity
         recyclerView.setAdapter(adapter);
     }
 
-    public void goToFullQuestion(View v,int position) {
-        Intent intent = new Intent(this,FullQuestionActivity.class);
-        intent.putExtra("position", position);
-        startActivity(intent);
-    }
+    private void initDatabase() {
+        RealmConfiguration config1 = new RealmConfiguration.Builder(this)
+                .name("default")
+                .schemaVersion(0)
+                .migration(new Migration())
+                .build();
 
+        /*try{
+            realm = Realm.getInstance(config1);
+        }catch (RealmMigrationNeededException e){
+            realm.deleteRealm(config1);
+            realm = Realm.getInstance(config1);
+            initRealm(realm);
+        }*/
+        realm.deleteRealm(config1);
+        realm = Realm.getInstance(config1);
+        initRealm(realm);
+
+    }
 
 
     @Override
@@ -163,6 +165,8 @@ public class MainActivity extends AppCompatActivity
             readPDF(recyclerView, "vorlesung2.pdf");
 
         } else if (id == R.id.vorlesung3) {
+            Intent intent = new Intent(this,ExerciseActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.vorlesung4) {
 
@@ -197,7 +201,7 @@ public class MainActivity extends AppCompatActivity
         answers.add(new RealmString("Finanzbuchhaltung"));
         answers.add(new RealmString("Planungsrechnung"));
 
-        Question question1 = new Question(0,questionStr1,answers,2);
+        Question question1 = new Question(0,questionStr1,answers,"1.1",2);
 
         String questionStr2 = "Das externe Rechnungswesen...";
         RealmList<RealmString> answers2 = new RealmList<>();
@@ -206,7 +210,7 @@ public class MainActivity extends AppCompatActivity
         answers2.add(new RealmString("wird durch Wirtschaftsprüfer festgelegt"));
         answers2.add(new RealmString("unterliegtgesetzlichenVorschriften"));
 
-        Question question2 = new Question(1,questionStr2,answers2,3);
+        Question question2 = new Question(1,questionStr2,answers2,"1.1",3);
 
         String questionStr3 = "Wer ist kein Adressat des Jahresabschlusses?";
         RealmList<RealmString> answers3 = new RealmList<>();
@@ -215,7 +219,7 @@ public class MainActivity extends AppCompatActivity
         answers3.add(new RealmString("Unternehmensleitung"));
         answers3.add(new RealmString("Abschlussprüfer"));
 
-        Question question3 = new Question(2,questionStr3,answers3,3);
+        Question question3 = new Question(2,questionStr3,answers3,"1.1",3);
 
         String questionStr4 = "Was ist keine Aufgabe des externen Rechnungswesens?";
         RealmList<RealmString> answers4 = new RealmList<>();
@@ -224,7 +228,7 @@ public class MainActivity extends AppCompatActivity
         answers4.add(new RealmString("Rechnungslegung/BilanzierungaufgrundgesetzlicherVorschriften"));
         answers4.add(new RealmString("Erstellung des Jahresabschlusses"));
 
-        Question question4 = new Question(3,questionStr4,answers4,1);
+        Question question4 = new Question(3,questionStr4,answers4,"1.1",1);
 
         String questionStr5 = "Das Betriebsergebnis ergibt sich durch Saldierung von ...";
         RealmList<RealmString> answers5 = new RealmList<>();
@@ -233,7 +237,7 @@ public class MainActivity extends AppCompatActivity
         answers5.add(new RealmString("Einnahme und Ausgabe"));
         answers5.add(new RealmString("Einzahlung und Auszahlung"));
 
-        Question question5 = new Question(4,questionStr5,answers5,0);
+        Question question5 = new Question(4,questionStr5,answers5,"1.1",0);
 
         ////
         String questionStr6 = "Die Saldierung von Einnahmen und Ausgaben ergibt ...";
@@ -243,7 +247,7 @@ public class MainActivity extends AppCompatActivity
         answers6.add(new RealmString("den Finanzsaldo"));
         answers6.add(new RealmString("den Zahlungssaldo"));
 
-        Question question6 = new Question(5,questionStr6,answers6,2);
+        Question question6 = new Question(5,questionStr6,answers6,"1.1",2);
         ////
 
         ////
@@ -254,7 +258,7 @@ public class MainActivity extends AppCompatActivity
         answers7.add(new RealmString("Monetärbewerteter,durchLeistungserstellungbedingterWertzuwachs"));
         answers7.add(new RealmString("Wertzuwachs einer Periode (erfolgswirksam)"));
 
-        Question question7 = new Question(6,questionStr7,answers7,0);
+        Question question7 = new Question(6,questionStr7,answers7,"1.1",0);
         ////
 
         ////
@@ -265,7 +269,7 @@ public class MainActivity extends AppCompatActivity
         answers8.add(new RealmString("Monetärer Wert der in einer Periode einem Unternehmen zugegangenen Wirtschaftsgüter"));
         answers8.add(new RealmString("Zahlungsmittel, die von einem Unternehmen innerhalb einer Periode abfließen"));
 
-        Question question8 = new Question(7,questionStr8,answers8,2);
+        Question question8 = new Question(7,questionStr8,answers8,"1.1",2);
         ////
 
 
@@ -277,7 +281,7 @@ public class MainActivity extends AppCompatActivity
         answers9.add(new RealmString("Aufwendungen"));
         answers9.add(new RealmString("Erlös"));
 
-        Question question9 = new Question(8,questionStr9,answers9,0);
+        Question question9 = new Question(8,questionStr9,answers9,"1.1",0);
         ////
 
         ////
@@ -288,7 +292,7 @@ public class MainActivity extends AppCompatActivity
         answers10.add(new RealmString("Einnahmen"));
         answers10.add(new RealmString("Erträge"));
 
-        Question question10 = new Question(9,questionStr10,answers10,0);
+        Question question10 = new Question(9,questionStr10,answers10,"1.1",0);
         ////
 
         ////
@@ -299,7 +303,7 @@ public class MainActivity extends AppCompatActivity
         answers11.add(new RealmString("Einnahme"));
         answers11.add(new RealmString("Ausgabe"));
 
-        Question question11 = new Question(10,questionStr11,answers11,0);
+        Question question11 = new Question(10,questionStr11,answers11,"1.1",0);
         ////
 
         ////
@@ -310,7 +314,7 @@ public class MainActivity extends AppCompatActivity
         answers12.add(new RealmString("Einnahme"));
         answers12.add(new RealmString("Ausgabe"));
 
-        Question question12 = new Question(11,questionStr12,answers12,0);
+        Question question12 = new Question(11,questionStr12,answers12,"1.1",0);
         ////
 
         ////
@@ -321,7 +325,7 @@ public class MainActivity extends AppCompatActivity
         answers13.add(new RealmString("Einnahme"));
         answers13.add(new RealmString("Ausgabe"));
 
-        Question question13 = new Question(12,questionStr13,answers13,3,"￼Hinweis:" + "Hier ist immer die Annahme, dass das Wirtschaftsgut gleich dem K");
+        Question question13 = new Question(12,questionStr13,answers13,3,"1.1","￼Hinweis:" + "Hier ist immer die Annahme, dass das Wirtschaftsgut gleich dem K");
         ////
 
         ////
@@ -332,7 +336,7 @@ public class MainActivity extends AppCompatActivity
         answers14.add(new RealmString("Einnahme"));
         answers14.add(new RealmString("Einzahlung und Einnahme"));
 
-        Question question14 = new Question(13,questionStr14,answers14,1);
+        Question question14 = new Question(13,questionStr14,answers14,"1.1",1);
         ////
 
         ////
@@ -343,7 +347,7 @@ public class MainActivity extends AppCompatActivity
         answers15.add(new RealmString("Aufwand"));
         answers15.add(new RealmString("Auszahlung,Ausgabe und Aufwand"));
 
-        Question question15 = new Question(14,questionStr15,answers15,0,"￼Hinweis:\n" + "Da keine Angabe, wann der Verbrauch stattfindet, wird nicht geprüft ob ein Aufwand vorherrscht; also: Aufwand wird nur bei expliziter Angabe des Verbrauchs ge");
+        Question question15 = new Question(14,questionStr15,answers15,0,"1.1","￼Hinweis:\n" + "Da keine Angabe, wann der Verbrauch stattfindet, wird nicht geprüft ob ein Aufwand vorherrscht; also: Aufwand wird nur bei expliziter Angabe des Verbrauchs ge");
         ////
 
         ////
@@ -354,7 +358,7 @@ public class MainActivity extends AppCompatActivity
         answers16.add(new RealmString("Aufwand"));
         answers16.add(new RealmString("Auszahlung,Ausgabe und Aufwand"));
 
-        Question question16 = new Question(15,questionStr16,answers16,0);
+        Question question16 = new Question(15,questionStr16,answers16,"1.1",0);
         ////
 
         ////
@@ -365,7 +369,7 @@ public class MainActivity extends AppCompatActivity
         answers17.add(new RealmString("Aufwand"));
         answers17.add(new RealmString("Auszahlung,Ausgabe und Aufwand"));
 
-        Question question17 = new Question(16,questionStr17,answers17,1);
+        Question question17 = new Question(16,questionStr17,answers17,"1.1",1);
         ////
 
         ////
@@ -376,7 +380,7 @@ public class MainActivity extends AppCompatActivity
         answers18.add(new RealmString("Aufwand"));
         answers18.add(new RealmString("Auszahlung,Ausgabe und Aufwand"));
 
-        Question question18 = new Question(17,questionStr18,answers18,2);
+        Question question18 = new Question(17,questionStr18,answers18,"1.1",2);
         ////
 
         ////
@@ -387,7 +391,7 @@ public class MainActivity extends AppCompatActivity
         answers19.add(new RealmString("Aufwand"));
         answers19.add(new RealmString("Auszahlung,Ausgabe und Aufwand"));
 
-        Question question19 = new Question(18,questionStr19,answers19,2);
+        Question question19 = new Question(18,questionStr19,answers19,"1.1",2);
         ////
 
         ////
@@ -398,7 +402,7 @@ public class MainActivity extends AppCompatActivity
         answers20.add(new RealmString("Aufwand"));
         answers20.add(new RealmString("Auszahlung,Ausgabe und Aufwand"));
 
-        Question question20 = new Question(19,questionStr20,answers20,2);
+        Question question20 = new Question(19,questionStr20,answers20,"1.1",2);
         ////
 
         ////
@@ -409,7 +413,7 @@ public class MainActivity extends AppCompatActivity
         answers21.add(new RealmString("Ertrag"));
         answers21.add(new RealmString("Aufwand"));
 
-        Question question21 = new Question(20,questionStr21,answers21,0);
+        Question question21 = new Question(20,questionStr21,answers21,"1.1",0);
         ////
 
         ////
@@ -420,7 +424,7 @@ public class MainActivity extends AppCompatActivity
         answers22.add(new RealmString("Aufwand"));
         answers22.add(new RealmString("Auszahlung,Ausgabe und Aufwand"));
 
-        Question question22 = new Question(21,questionStr22,answers22,2);
+        Question question22 = new Question(21,questionStr22,answers22,"1.1",2);
         ////
 
         ////
@@ -431,7 +435,7 @@ public class MainActivity extends AppCompatActivity
         answers23.add(new RealmString("Aufwand"));
         answers23.add(new RealmString("Auszahlung,Ausgabe und Aufwand"));
 
-        Question question23 = new Question(22,questionStr23,answers23,3);
+        Question question23 = new Question(22,questionStr23,answers23,"1.1",3);
         ////
 
         ////
@@ -442,7 +446,7 @@ public class MainActivity extends AppCompatActivity
         answers24.add(new RealmString("Aufwand"));
         answers24.add(new RealmString("Auszahlung,Ausgabe und Aufwand"));
 
-        Question question24 = new Question(23,questionStr24,answers24,0);
+        Question question24 = new Question(23,questionStr24,answers24,"1.1",0);
         ////
 
         ////
@@ -453,7 +457,7 @@ public class MainActivity extends AppCompatActivity
         answers25.add(new RealmString("Aufwand"));
         answers25.add(new RealmString("Auszahlung,Ausgabe und Aufwand"));
 
-        Question question25 = new Question(24,questionStr25,answers25,0,"Hinweis:" +
+        Question question25 = new Question(24,questionStr25,answers25,0,"1.1","Hinweis:" +
                                                                         "Da keine Angabe, ob Kauf auf Kredit oder in bar => unklar, ob Auszahlung oder nicht, hier aber nicht relevant zur Beantwortung der MC-");
         ////
 
@@ -465,7 +469,7 @@ public class MainActivity extends AppCompatActivity
         answers26.add(new RealmString("Einzahlung"));
         answers26.add(new RealmString("Einnahme und Einzahlung"));
 
-        Question question26 = new Question(25,questionStr26,answers26,0);
+        Question question26 = new Question(25,questionStr26,answers26,"1.1",0);
         ////
 
         ////
@@ -476,7 +480,7 @@ public class MainActivity extends AppCompatActivity
         answers27.add(new RealmString("Einnahme"));
         answers27.add(new RealmString("Ausgabe"));
 
-        Question question27 = new Question(26,questionStr27,answers27,1);
+        Question question27 = new Question(26,questionStr27,answers27,"1.1",1);
         ////
 
         ////
@@ -487,7 +491,7 @@ public class MainActivity extends AppCompatActivity
         answers28.add(new RealmString("Einnahme"));
         answers28.add(new RealmString("Ausgabe"));
 
-        Question question28 = new Question(27,questionStr28,answers28,0);
+        Question question28 = new Question(27,questionStr28,answers28,"1.1",0);
         ////
 
         ////
@@ -498,7 +502,7 @@ public class MainActivity extends AppCompatActivity
         answers29.add(new RealmString("Ertrag"));
         answers29.add(new RealmString("Aufwand"));
 
-        Question question29 = new Question(28,questionStr29,answers29,2);
+        Question question29 = new Question(28,questionStr29,answers29,"1.1",2);
         ////
 
         ////
@@ -509,7 +513,7 @@ public class MainActivity extends AppCompatActivity
         answers30.add(new RealmString("Einnahme"));
         answers30.add(new RealmString("Ausgabe"));
 
-        Question question30 = new Question(29,questionStr30,answers30,0);
+        Question question30 = new Question(29,questionStr30,answers30,"1.1",0);
         ////
 
         ////
@@ -520,7 +524,7 @@ public class MainActivity extends AppCompatActivity
         answers31.add(new RealmString("Ausgabe"));
         answers31.add(new RealmString("Keine der vorherigen Antworten ist richtig"));
 
-        Question question31 = new Question(30,questionStr31,answers31,2,"￼Hinweis:" + "es handelt sich um eine Einnahme und Einzahlung; aber Einnahme nicht als");
+        Question question31 = new Question(30,questionStr31,answers31,2,"1.1","￼Hinweis:" + "es handelt sich um eine Einnahme und Einzahlung; aber Einnahme nicht als");
         ////
 
         ////
@@ -531,7 +535,7 @@ public class MainActivity extends AppCompatActivity
         answers32.add(new RealmString("Ertrag"));
         answers32.add(new RealmString("Aufwand"));
 
-        Question question32 = new Question(31,questionStr32,answers32,3);
+        Question question32 = new Question(31,questionStr32,answers32,"1.1",3);
         ////
 
         ////
@@ -542,7 +546,7 @@ public class MainActivity extends AppCompatActivity
         answers33.add(new RealmString("Ertrag"));
         answers33.add(new RealmString("Einzahlung, Einnahme und Ertrag"));
 
-        Question question33 = new Question(32,questionStr33,answers33,0);
+        Question question33 = new Question(32,questionStr33,answers33,"1.1",0);
         ////
 
         ////
@@ -553,7 +557,7 @@ public class MainActivity extends AppCompatActivity
         answers34.add(new RealmString("Einnahme"));
         answers34.add(new RealmString("Ausgabe"));
 
-        Question question34 = new Question(33,questionStr34,answers34,0);
+        Question question34 = new Question(33,questionStr34,answers34,"1.1",0);
         ////
 
         ////
@@ -564,7 +568,7 @@ public class MainActivity extends AppCompatActivity
         answers35.add(new RealmString("Einnahme"));
         answers35.add(new RealmString("Ausgabe"));
 
-        Question question35 = new Question(34,questionStr35,answers35,0);
+        Question question35 = new Question(34,questionStr35,answers35,"1.1",0);
         ////
                     ///KAPITEL 1.2///
         ////
@@ -867,6 +871,50 @@ public class MainActivity extends AppCompatActivity
         Question question62 = new Question(61,questionStr62,answers62,"1.2",2);
         ////
 
+        ////
+        String questionStr63 = "Welche der folgenden Aussagen zur Umsatzsteuer ist richtig?";
+        RealmList<RealmString> answers63 = new RealmList<>();
+        answers63.add(new RealmString("Eine Privatentnahme des Unternehmers aus seinem Unternehmen ist immer ein umsatzsteuerpflichtiger Geschäftsvorfall."));
+        answers63.add(new RealmString("Falls im Rahmen des Jahresabschlusses der Saldo des Kontos 1400: Vorsteuer größer ist als der Saldo des Kontos 3800: Umsatzsteuer, so hat das Unternehmen eine Forderung gegenüber dem Finanzamt."));
+        answers63.add(new RealmString("Beim Verkauf von Anlagevermögen unter Restbuchwert wird niemals Umsatzsteuer fällig."));
+        answers63.add(new RealmString("Keine der oben genannten Antwortmöglichkeiten ist richtig."));
+
+        Question question63 = new Question(62,questionStr63,answers63,"2.1",1);
+        ////
+
+        ////
+        String questionStr64 = "Für die Produktion von Tischen kauft JUPITER Holzleim im Wert von 143 EUR (brutto) auf Ziel. Welcher der folgenden Buchungssätze bildet den Einkauf korrekt ab?";
+        RealmList<RealmString> answers64 = new RealmList<>();
+        answers64.add(new RealmString("1030: Betriebsstoffe, 130 an 3300: VLL, 143 1400: Vorsteuer, 13"));
+        answers64.add(new RealmString("1020: Hilfsstoffe, 130 1400: Vorsteuer, 13 an 3300: VLL, 143"));
+        answers64.add(new RealmString("5020: Aufwand (H) an 1020: Hilfsstoffe, 130"));
+        answers64.add(new RealmString("3300: VLL an 1600: Kasse, 143"));
+
+        Question question64 = new Question(63,questionStr64,answers64,"2.1",1);
+        ////
+
+        ////
+        String questionStr65 = "JUPITER verkauft eine Produktionsmaschine zum Restbuchwert für 2.750 EUR (brutto) an einen befreundeten Unternehmer. Die Bezahlung erfolgt per Banküberweisung. Welcher der folgenden Buchungssätze bildet den Geschäftsvorfall korrekt ab?";
+        RealmList<RealmString> answers65 = new RealmList<>();
+        answers65.add(new RealmString("1800: Bank, 2.750 an  0440: Maschinen, 2.500 3800: UST, 250"));
+        answers65.add(new RealmString("1800: Bank, 2.750 an 0440: Maschinen, 2.750"));
+        answers65.add(new RealmString("1800: Bank, 3.025 an 0440: Maschinen, 2.750 3800: UST, 275"));
+        answers65.add(new RealmString("1800: Bank, 3.025 an 0440: Maschinen, 2.500 3800: UST, 275 4900: EA, 250"));
+
+        Question question65 = new Question(64,questionStr65,answers65,"2.1",0);
+        ////
+
+        ////
+        String questionStr66 = "JUPITER verkauft eine Lagerhalle mit Restbuchwert 60.000 EUR zu 55.000 EUR (brutto) auf Ziel. Welcher der folgenden Buchungssätze bildet den Geschäftsvorfall korrekt ab?";
+        RealmList<RealmString> answers66 = new RealmList<>();
+        answers66.add(new RealmString("1300: Sonstige Forderungen, 60.000 an 0240: Geschäftsbauten, 55.000 3800: UST, 5.000"));
+        answers66.add(new RealmString("1300: Sonstige Forderungen, 55.000 6900: VA, 10.000 an 0240: Geschäftsbauten, 60.000 3800: UST, 5.000"));
+        answers66.add(new RealmString("1300: Sonstige Forderungen, 55.000 an 0240: Geschäftsbauten, 50.000 3800: UST, 5.000"));
+        answers66.add(new RealmString("1200: FLL, 55.000 3800: UST, 5.000 an 0240: Geschäftsbauten, 60.000"));
+
+        Question question66 = new Question(65,questionStr66,answers66,"2.1",1);
+        ////
+
 
         realm.beginTransaction();
         realm.clear(Question.class);
@@ -932,6 +980,10 @@ public class MainActivity extends AppCompatActivity
         realm.copyToRealm(question60);
         realm.copyToRealm(question61);
         realm.copyToRealm(question62);
+        realm.copyToRealm(question63);
+        realm.copyToRealm(question64);
+        realm.copyToRealm(question65);
+        realm.copyToRealm(question66);
 
         realm.commitTransaction();
 

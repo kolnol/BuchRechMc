@@ -1,11 +1,23 @@
 <resources>
     <string name="app_name">BuchRechMc</string>
-
+    <!--Navigation-->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
     <string name="nextButton">Next</string>
     <string name="previousButton">Previous</string>
     <string name="themeName">Buchfuerung und Rechnungswesen</string>
-
+    <!--Lectures names-->
+    <string name="firstLectureName">Grundlagen</string>
+    <string name="secondLectureName">Buchführung</string>
+    <string name="thirdLectureName">Jahresabschluss 1</string>
+    <string name="fourthLectureName">Jahresabschluss 2</string>
+    <string name="fifthLectureName">Jahresabschluss 3</string>
+    <string name="sixthLectureName">Bilanzpolitik und Bilanzanalyse</string>
+    <!--Exercises names-->
+    <string name="firstExerciseName">Buchführung Fallbeispiel 1</string>
+    <string name="secondExerciseName">Buchführung Fallbeispiel 2</string>
+    <string name="thirdExerciseName">Übung JA 1 und Teil von JA 2</string>
+    <string name="fourthExerciseName">Übung JA 2</string>
+    <string name="fifthExerciseName">Übung JA 3</string>
 </resources>

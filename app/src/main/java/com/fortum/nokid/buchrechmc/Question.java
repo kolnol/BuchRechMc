@@ -28,21 +28,14 @@ public class Question extends RealmObject{
         this.hint = hint;
         isRightAnswered=false;
     }
-
-    public boolean isRightAnswered() {
-        return isRightAnswered;
-    }
-
-    public void setIsRightAnswered(boolean isRightAnswered) {
-        this.isRightAnswered = isRightAnswered;
-    }
-
     public Question(int id,String question,RealmList<RealmString> possibleAnswers,int rightAnswerIndex,String kapitel,String hint){
         this.id=id;
         this.question=question;
         this.possibleAnswers=possibleAnswers;
         this.rightAnswerIndex=rightAnswerIndex;
         isRightAnswered=false;
+        this.kapitel=kapitel;
+        this.hint=hint;
     }
 
 
@@ -52,6 +45,7 @@ public class Question extends RealmObject{
         this.possibleAnswers=possibleAnswers;
         this.rightAnswerIndex=rightAnswerIndex;
         isRightAnswered=false;
+        this.kapitel=kapitel;
     }
 
     public Question(int id,String question,RealmList<RealmString> possibleAnswers,int rightAnswerIndex){
@@ -62,7 +56,13 @@ public class Question extends RealmObject{
         isRightAnswered=false;
     }
 
+    public boolean isRightAnswered() {
+        return isRightAnswered;
+    }
 
+    public void setIsRightAnswered(boolean isRightAnswered) {
+        this.isRightAnswered = isRightAnswered;
+    }
 
     public RealmList<RealmString> getPossibleAnswers() {
         return possibleAnswers;

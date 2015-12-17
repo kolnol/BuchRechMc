@@ -24,6 +24,7 @@
         <activity android:name=".PdfActivity"></activity>
         <activity android:name=".SprintSetupActivity"></activity>
         <activity android:name=".SprintResultActivity"></activity>
+        <activity android:name=".ExerciseActivity"></activity>
 
         <meta-data
             android:name="io.fabric.ApiKey"

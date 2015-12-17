@@ -4,26 +4,36 @@
     <item android:title="Vorlesungen">
         <menu>
             <item android:id="@+id/vorlesung1" android:icon="@drawable/ic_book_open"
-                android:title="Vorlesung 1" />
+                android:title="@string/firstLectureName" />
             <item android:id="@+id/vorlesung2" android:icon="@drawable/ic_book_open"
-                android:title="Vorlesung 2" />
+                android:title="@string/secondLectureName" />
             <item android:id="@+id/vorlesung3" android:icon="@drawable/ic_book_open"
-                android:title="Vorlesung 3" />
+                android:title="@string/thirdLectureName" />
             <item android:id="@+id/vorlesung4" android:icon="@drawable/ic_book_open"
-                android:title="Vorlesung 4" />
+                android:title="@string/fourthLectureName" />
+            <item android:id="@+id/vorlesung5" android:icon="@drawable/ic_book_open"
+                android:title="@string/fifthLectureName" />
+            <item android:id="@+id/vorlesung6" android:icon="@drawable/ic_book_open"
+                android:title="@string/sixthLectureName" />
         </menu>
     </item>
 
     <item android:title="Übungen">
         <menu>
-            <item android:id="@+id/fallBeispiel1" android:icon="@drawable/ic_calculator"
-                android:title="Fallbeispiel 1" />
-            <item android:id="@+id/fallBeispiel2" android:icon="@drawable/ic_calculator"
-                android:title="Fallbeispiel 2" />
-            <item android:id="@+id/fallBeispiel3" android:icon="@drawable/ic_calculator"
-                android:title="Fallbeispiel 3" />
-            <item android:id="@+id/fallBeispiel4" android:icon="@drawable/ic_calculator"
-                android:title="Fallbeispiel 4" />
+            <item android:id="@+id/exercise1" android:icon="@drawable/ic_calculator"
+                android:title="@string/firstExerciseName" />
+
+            <item android:id="@+id/exercise2" android:icon="@drawable/ic_calculator"
+                android:title="@string/secondExerciseName" />
+
+            <item android:id="@+id/exercise3" android:icon="@drawable/ic_calculator"
+                android:title="@string/thirdExerciseName" />
+
+            <item android:id="@+id/exercise5" android:icon="@drawable/ic_calculator"
+                android:title="@string/fourthExerciseName" />
+
+            <item android:id="@+id/exercise6" android:icon="@drawable/ic_calculator"
+                android:title="@string/fifthExerciseName" />
         </menu>
     </item>
 

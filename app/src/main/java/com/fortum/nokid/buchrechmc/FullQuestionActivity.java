@@ -31,6 +31,7 @@ public class FullQuestionActivity extends AppCompatActivity {
     private int countQuestions;
     private boolean isSprint;
     private Sprint sprint;
+    private boolean answered;
 
 
     @Override
@@ -99,6 +100,9 @@ public class FullQuestionActivity extends AppCompatActivity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!answered){
+                    saveAnswerToDB(false);
+                }
                 goToNextQuestion(v, position, from, to);
             }
         });
@@ -106,6 +110,9 @@ public class FullQuestionActivity extends AppCompatActivity {
         prevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!answered){
+                    saveAnswerToDB(false);
+                }
                 goToPrevQuestion(v, position,from,to);
             }
         });
@@ -155,31 +162,13 @@ public class FullQuestionActivity extends AppCompatActivity {
     }
 
     public void isRight(Button button,int answer){
+        answered=true;
         if(question.getRightAnswerIndex()==answer){
 
-            realm.beginTransaction();
-            question.setIsRightAnswered(true);
-
-            if(isSprint){
-                sprint.getAnswerTrigger().add(new RealmBoolean(true));
-                realm.copyToRealm(sprint);
-            }
-
-            realm.commitTransaction();
+            saveAnswerToDB(true);
             button.setBackgroundColor(getResources().getColor(R.color.rightAnswerColor));
         }else{
-            realm.beginTransaction();
-            question.setIsRightAnswered(false);
-
-            if(isSprint) {
-                //RealmList<RealmBoolean> trigger =
-                        sprint.getAnswerTrigger().add(new RealmBoolean(false));
-                //trigger.add(new RealmBoolean(false));
-               //sprint.setAnswerTrigger(trigger);
-                realm.copyToRealm(sprint);
-            }
-
-            realm.commitTransaction();
+            saveAnswerToDB(false);
             button.setBackgroundColor(getResources().getColor(R.color.wrongAnswerColor));
 
             switch (question.getRightAnswerIndex()){
@@ -206,6 +195,18 @@ public class FullQuestionActivity extends AppCompatActivity {
         answerB.setClickable(false);
         answerC.setClickable(false);
         answerD.setClickable(false);
+    }
+
+    private void saveAnswerToDB(boolean res){
+        realm.beginTransaction();
+        question.setIsRightAnswered(res);
+
+        if(isSprint){
+            sprint.getAnswerTrigger().add(new RealmBoolean(res));
+            realm.copyToRealm(sprint);
+        }
+
+        realm.commitTransaction();
     }
 
     @Override

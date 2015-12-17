@@ -18,6 +18,7 @@ public class QuestionsAdapterRecycleView extends RecyclerView.Adapter<QuestionsA
     public static class ViewHolder extends RecyclerView.ViewHolder  {
         public TextView txtViewTitle;
         public Question question;
+        private String aktualleKapitel="1.0";
 
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
@@ -28,6 +29,16 @@ public class QuestionsAdapterRecycleView extends RecyclerView.Adapter<QuestionsA
         public void setItem(Question question){
             this.question = question;
             txtViewTitle.setText(question.getQuestion());
+            /*if(aktualleKapitel.equals("1.0")){
+                txtViewTitle.setText("Grundlagen");
+                this.aktualleKapitel="1.1";
+            }else if(!aktualleKapitel.equals(question.getKapitel())){
+                txtViewTitle.setText("Kapitel"+question.getKapitel().substring(0,1));
+                this.aktualleKapitel=question.getKapitel().substring(0,1);
+            }else{
+                txtViewTitle.setText(question.getQuestion());
+            }*/
+
         }
 
     }
