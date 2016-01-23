@@ -23,8 +23,8 @@ android {
         applicationId "com.fortum.nokid.buchrechmc"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 125
-        versionName "1.25"
+        versionCode 1252
+        versionName "1.25.2"
     }
     buildTypes {
         release {

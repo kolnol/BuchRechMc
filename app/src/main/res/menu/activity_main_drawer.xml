@@ -15,6 +15,7 @@
                 android:title="@string/fifthLectureName" />
             <item android:id="@+id/vorlesung6" android:icon="@drawable/ic_book_open"
                 android:title="@string/sixthLectureName" />
+
         </menu>
     </item>
 

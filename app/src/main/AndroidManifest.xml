@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name=".Activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
@@ -19,12 +19,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".FullQuestionActivity"></activity>
-        <activity android:name=".BucketListActivity"></activity>
-        <activity android:name=".PdfActivity"></activity>
-        <activity android:name=".SprintSetupActivity"></activity>
-        <activity android:name=".SprintResultActivity"></activity>
-        <activity android:name=".ExerciseActivity"></activity>
+        <activity android:name=".Activities.FullQuestionActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".Activities.BucketListActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".Activities.PdfActivity"></activity>
+        <activity android:name=".Sprint.SprintSetupActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".Sprint.SprintResultActivity" android:screenOrientation="portrait"></activity>
+
+        <activity android:name=".Activities.FullExerciseActivity" android:screenOrientation="portrait"></activity>
 
         <meta-data
             android:name="io.fabric.ApiKey"
