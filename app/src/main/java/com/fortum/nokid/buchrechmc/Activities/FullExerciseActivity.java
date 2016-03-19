@@ -1,16 +1,14 @@
 package com.fortum.nokid.buchrechmc.Activities;
 
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
-import com.fortum.nokid.buchrechmc.Fragments.ExerciseTextFragment;
-import com.fortum.nokid.buchrechmc.R;
-import com.fortum.nokid.buchrechmc.Fragments.TabFragmentPage;
 import com.fortum.nokid.buchrechmc.Adapters.TabViewPagerAdapter;
+import com.fortum.nokid.buchrechmc.Fragments.ExerciseTextFragment;
+import com.fortum.nokid.buchrechmc.Fragments.TabFragmentPage;
+import com.fortum.nokid.buchrechmc.R;
 
 public class FullExerciseActivity extends AppCompatActivity {
     private TabLayout tabLayout;

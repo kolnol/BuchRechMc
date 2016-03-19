@@ -3,7 +3,6 @@ package com.fortum.nokid.buchrechmc.Sprint;
 import com.fortum.nokid.buchrechmc.Activities.MainActivity;
 import com.fortum.nokid.buchrechmc.Entities.Question;
 import com.fortum.nokid.buchrechmc.RealmClasses.RealmBoolean;
-import com.fortum.nokid.buchrechmc.Sprint.Sprint;
 
 import java.util.HashMap;
 import java.util.HashSet;

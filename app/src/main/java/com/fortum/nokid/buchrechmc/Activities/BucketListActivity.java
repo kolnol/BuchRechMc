@@ -5,8 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.fortum.nokid.buchrechmc.Entities.Question;
 import com.fortum.nokid.buchrechmc.Adapters.QuestionsAdapterRecycleView;
+import com.fortum.nokid.buchrechmc.Entities.Question;
 import com.fortum.nokid.buchrechmc.R;
 
 import io.realm.Realm;

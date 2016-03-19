@@ -5,15 +5,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 import com.fortum.nokid.buchrechmc.Activities.MainActivity;
-import com.fortum.nokid.buchrechmc.Entities.Question;
 import com.fortum.nokid.buchrechmc.Adapters.QuestionsAdapterRecycleView;
+import com.fortum.nokid.buchrechmc.Entities.Question;
 import com.fortum.nokid.buchrechmc.R;
 
 import io.realm.Realm;

@@ -1,8 +1,8 @@
 package com.fortum.nokid.buchrechmc.Sprint;
 
 import com.fortum.nokid.buchrechmc.Entities.Question;
-import com.fortum.nokid.buchrechmc.RealmClasses.RealmInteger;
 import com.fortum.nokid.buchrechmc.RealmClasses.RealmBoolean;
+import com.fortum.nokid.buchrechmc.RealmClasses.RealmInteger;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;

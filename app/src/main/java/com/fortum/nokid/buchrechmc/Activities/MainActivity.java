@@ -14,44 +14,31 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.ndk.CrashlyticsNdk;
-import com.fortum.nokid.buchrechmc.Entities.Exercise;
-import com.fortum.nokid.buchrechmc.Entities.Konto;
-import com.fortum.nokid.buchrechmc.Fragments.ExerciseListTabFragment;
-import com.fortum.nokid.buchrechmc.InitializationRealm;
-import com.fortum.nokid.buchrechmc.RealmClasses.RealmInteger;
-import com.fortum.nokid.buchrechmc.RealmClasses.Migration;
-import com.fortum.nokid.buchrechmc.Entities.Page;
+import com.fortum.nokid.buchrechmc.Adapters.QuestionsAdapterRecycleView;
+import com.fortum.nokid.buchrechmc.Adapters.TabViewPagerAdapter;
 import com.fortum.nokid.buchrechmc.Entities.Question;
 import com.fortum.nokid.buchrechmc.Fragments.QuestionListTabFragment;
-import com.fortum.nokid.buchrechmc.Adapters.QuestionsAdapterRecycleView;
+import com.fortum.nokid.buchrechmc.InitializationRealm;
 import com.fortum.nokid.buchrechmc.R;
-import com.fortum.nokid.buchrechmc.RealmClasses.RealmString;
+import com.fortum.nokid.buchrechmc.RealmClasses.Migration;
 import com.fortum.nokid.buchrechmc.Sprint.SprintSetupActivity;
-import com.fortum.nokid.buchrechmc.Fragments.TabFragmentPage;
-import com.fortum.nokid.buchrechmc.Adapters.TabViewPagerAdapter;
-import com.fortum.nokid.buchrechmc.Entities.VorlesungPDF;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Iterator;
 
 import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
-import io.realm.RealmList;
-import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import io.realm.exceptions.RealmError;
-import io.realm.exceptions.RealmMigrationNeededException;
 
 public class MainActivity extends AppCompatActivity
                             implements NavigationView.OnNavigationItemSelectedListener{

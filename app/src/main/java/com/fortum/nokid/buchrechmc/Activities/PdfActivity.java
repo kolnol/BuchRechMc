@@ -6,10 +6,10 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
-import com.fortum.nokid.buchrechmc.RealmClasses.RealmInteger;
 import com.fortum.nokid.buchrechmc.Entities.Page;
-import com.fortum.nokid.buchrechmc.R;
 import com.fortum.nokid.buchrechmc.Entities.VorlesungPDF;
+import com.fortum.nokid.buchrechmc.R;
+import com.fortum.nokid.buchrechmc.RealmClasses.RealmInteger;
 import com.joanzapata.pdfview.PDFView;
 import com.joanzapata.pdfview.listener.OnPageChangeListener;
 
