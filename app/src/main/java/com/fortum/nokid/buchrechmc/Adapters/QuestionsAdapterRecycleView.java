@@ -22,7 +22,7 @@ public class QuestionsAdapterRecycleView extends RecyclerView.Adapter<QuestionsA
     public static class ViewHolder extends RecyclerView.ViewHolder  {
         public TextView txtViewTitle;
         public Question question;
-        private String aktualleKapitel="1.0";
+
 
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);

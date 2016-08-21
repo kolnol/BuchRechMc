@@ -1,8 +1,5 @@
 package com.fortum.nokid.buchrechmc.Entities;
 
-
-
-
 import com.fortum.nokid.buchrechmc.RealmClasses.RealmString;
 
 import io.realm.RealmList;
