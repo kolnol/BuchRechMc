@@ -16,8 +16,13 @@
 
 package com.fortum.nokid.buchrechmc.RealmClasses;
 
+import io.realm.DynamicRealm;
+import io.realm.DynamicRealmObject;
+import io.realm.FieldAttribute;
 import io.realm.Realm;
 import io.realm.RealmMigration;
+import io.realm.RealmObjectSchema;
+import io.realm.RealmSchema;
 import io.realm.internal.Table;
 
 /***************************** NOTE: *********************************************
@@ -29,23 +34,38 @@ import io.realm.internal.Table;
 
 
 public class Migration implements RealmMigration {
+
     @Override
-    public long execute(Realm realm, long version) {
+    public void migrate(final DynamicRealm realm, long oldVersion, long newVersion) {
+        RealmSchema schema = realm.getSchema();
+        if(oldVersion==0){
+            RealmObjectSchema questionSchema = schema.get("Question");
+            //content
+            questionSchema
+                    .addField("content",String.class, FieldAttribute.REQUIRED)
+                    .transform(new RealmObjectSchema.Function(){
 
-        if (version==0||version==1||version==2){
+                        @Override
+                        public void apply(DynamicRealmObject obj) {
+                            obj.set("content",obj.getString("question"));
+                        }
+                    })
+                    .removeField("question");
+            //id change from int to long
+            questionSchema
+                    .addField("id_tmp",long.class,FieldAttribute.PRIMARY_KEY)
+                    .transform(new RealmObjectSchema.Function() {
+                        @Override
+                        public void apply(DynamicRealmObject obj) {
+                            int oldId=obj.getInt("id");
+                            obj.setLong("id_tmp",oldId);
+                        }
+                    })
+                    .removeField("id")
+                    .renameField("id_tmp","id");
+            //possibleAnswers
 
-
-            return version ++;
+            oldVersion++;
         }
-        return version;
-    }
-
-    private long getIndexForProperty(Table table, String name) {
-        for (int i = 0; i < table.getColumnCount(); i++) {
-            if (table.getColumnName(i).equals(name)) {
-                return i;
-            }
-        }
-        return -1;
     }
 }

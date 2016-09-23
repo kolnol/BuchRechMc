@@ -39,7 +39,7 @@ public class ExerciseAdapterRecyclerView extends RecyclerView.Adapter<ExerciseAd
                 txtViewTitle.setText("Kapitel"+question.getKapitel().substring(0,1));
                 this.aktualleKapitel=question.getKapitel().substring(0,1);
             }else{
-                txtViewTitle.setText(question.getQuestion());
+                txtViewTitle.setText(question.getContent());
             }*/
 
         }

@@ -50,20 +50,20 @@ public class FullQuestionActivity extends AppCompatActivity {
 
         final int position = getIntent().getIntExtra("position", 0);
         final int from = getIntent().getIntExtra("fromPosition", 0);
-        final int to = getIntent().getIntExtra("toPosition", realm.allObjects(Question.class).size());
+        final int to = getIntent().getIntExtra("toPosition", realm.where(Question.class).findAll().size());
         isSprint = getIntent().getBooleanExtra("isSprint", false);
 
         //Init DB and find Question
         if(!isSprint){
             result=realm.where(Question.class).between("id",from,to).findAllSorted("id");
         }else{
-            sprint=realm.allObjects(Sprint.class).last();
+            sprint=realm.where(Sprint.class).findAll().last();
             result=sprint.getQuestions().where().findAll();
         }
         question=result.get(position);
 
         //Set Question and answers to view
-        textView.setText(question.getQuestion());
+        textView.setText(question.getContent());
         answerA.setText(question.getPossibleAnswers().get(0).getString());
         answerB.setText(question.getPossibleAnswers().get(1).getString());
         answerC.setText(question.getPossibleAnswers().get(2).getString());
@@ -163,7 +163,7 @@ public class FullQuestionActivity extends AppCompatActivity {
 
     public void isRight(Button button,int answer){
         answered=true;
-        if(question.getRightAnswerIndex()==answer){
+        if(question.getCorrectAnswerId()==answer){
 
             saveAnswerToDB(true);
             button.setBackgroundColor(getResources().getColor(R.color.rightAnswerColor));
@@ -171,7 +171,7 @@ public class FullQuestionActivity extends AppCompatActivity {
             saveAnswerToDB(false);
             button.setBackgroundColor(getResources().getColor(R.color.wrongAnswerColor));
 
-            switch (question.getRightAnswerIndex()){
+            switch (question.getCorrectAnswerId()){
                 case 0:
                     button=answerA;
                     break;

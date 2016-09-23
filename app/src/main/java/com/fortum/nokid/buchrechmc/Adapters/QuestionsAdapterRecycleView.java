@@ -32,7 +32,7 @@ public class QuestionsAdapterRecycleView extends RecyclerView.Adapter<QuestionsA
 
         public void setItem(Question question){
             this.question = question;
-            txtViewTitle.setText(question.getQuestion());
+            txtViewTitle.setText(question.getContent());
             /*if(aktualleKapitel.equals("1.0")){
                 txtViewTitle.setText("Grundlagen");
                 this.aktualleKapitel="1.1";
@@ -40,7 +40,7 @@ public class QuestionsAdapterRecycleView extends RecyclerView.Adapter<QuestionsA
                 txtViewTitle.setText("Kapitel"+question.getKapitel().substring(0,1));
                 this.aktualleKapitel=question.getKapitel().substring(0,1);
             }else{
-                txtViewTitle.setText(question.getQuestion());
+                txtViewTitle.setText(question.getContent());
             }*/
 
         }

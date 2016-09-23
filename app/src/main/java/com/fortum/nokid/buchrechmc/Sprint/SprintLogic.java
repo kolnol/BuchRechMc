@@ -123,7 +123,7 @@ public class SprintLogic {
         RealmList<Question> questionList=new RealmList<>();
         Set<Integer> integerSet=getSetOfIndexes(sprint.getCount());
         Iterator itr=integerSet.iterator();
-        RealmResults<Question> questions= MainActivity.realm.allObjects(Question.class);
+        RealmResults<Question> questions= MainActivity.realm.where(Question.class).findAll();
         int index;
 
         while(itr.hasNext()){
@@ -140,7 +140,7 @@ public class SprintLogic {
 
         Set<Integer> integerSet = new HashSet<>();
 
-        int size= MainActivity.realm.allObjects(Question.class).size();
+        int size= MainActivity.realm.where(Question.class).findAll().size();
 
         while(integerSet.size()<count){
             integerSet.add(getRandomInt(0,size-1));

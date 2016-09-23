@@ -1,57 +1,59 @@
 package com.fortum.nokid.buchrechmc.Entities;
 
-import com.fortum.nokid.buchrechmc.RealmClasses.RealmString;
-
 import io.realm.RealmList;
 import io.realm.RealmObject;
 
 
 public class Question extends RealmObject{
-    private int id;
-    private String question;
-    private RealmList<RealmString> possibleAnswers;
-    private int rightAnswerIndex;
-    private String thema;
-    private String kapitel;
+    private long id;
+    private String content;
+    private RealmList<Answer> possibleAnswers;
+    private int correctAnswerId;
+    private int chapter;
     private String hint;
     private boolean isRightAnswered;
+    private boolean isBookingEntry;
+    private int fromPage;
+    private int toPage;
+
+
 
     public Question() {
     }
 
-    public Question(int id, String question, RealmList<RealmString> possibleAnswers, int rightAnswerIndex, String hint) {
+    public Question(long id, String content, RealmList<Answer> possibleAnswers, int correctAnswerId, String hint) {
         this.id = id;
-        this.question = question;
+        this.content = content;
         this.possibleAnswers = possibleAnswers;
-        this.rightAnswerIndex = rightAnswerIndex;
+        this.correctAnswerId = correctAnswerId;
         this.hint = hint;
         isRightAnswered=false;
     }
-    public Question(int id,String question,RealmList<RealmString> possibleAnswers,int rightAnswerIndex,String kapitel,String hint){
+    public Question(int id, String content, RealmList<Answer> possibleAnswers, int correctAnswerId, String kapitel, String hint){
         this.id=id;
-        this.question=question;
+        this.content = content;
         this.possibleAnswers=possibleAnswers;
-        this.rightAnswerIndex=rightAnswerIndex;
+        this.correctAnswerId = correctAnswerId;
         isRightAnswered=false;
         this.kapitel=kapitel;
         this.hint=hint;
     }
 
 
-    public Question(int id,String question,RealmList<RealmString> possibleAnswers,String kapitel,int rightAnswerIndex){
+    public Question(int id, String content, RealmList<Answer> possibleAnswers, String kapitel, int correctAnswerId){
         this.id=id;
-        this.question=question;
+        this.content = content;
         this.possibleAnswers=possibleAnswers;
-        this.rightAnswerIndex=rightAnswerIndex;
+        this.correctAnswerId = correctAnswerId;
         isRightAnswered=false;
         this.kapitel=kapitel;
     }
 
-    public Question(int id,String question,RealmList<RealmString> possibleAnswers,int rightAnswerIndex){
+    public Question(int id, String content, RealmList<Answer> possibleAnswers, int correctAnswerId){
         this.id=id;
-        this.question=question;
+        this.content = content;
         this.possibleAnswers=possibleAnswers;
-        this.rightAnswerIndex=rightAnswerIndex;
+        this.correctAnswerId = correctAnswerId;
         isRightAnswered=false;
     }
 
@@ -63,52 +65,37 @@ public class Question extends RealmObject{
         this.isRightAnswered = isRightAnswered;
     }
 
-    public RealmList<RealmString> getPossibleAnswers() {
+    public RealmList<Answer> getPossibleAnswers() {
         return possibleAnswers;
     }
 
-    public void setPossibleAnswers(RealmList<RealmString> possibleAnswers) {
+    public void setPossibleAnswers(RealmList<Answer> possibleAnswers) {
         this.possibleAnswers = possibleAnswers;
     }
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public String getQuestion() {
-        return question;
+    public String getContent() {
+        return content;
     }
 
-    public void setQuestion(String question) {
-        this.question = question;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public int getRightAnswerIndex() {
-        return rightAnswerIndex;
+    public int getCorrectAnswerId() {
+        return correctAnswerId;
     }
 
-    public void setRightAnswerIndex(int rightAnswerIndex) {
-        this.rightAnswerIndex = rightAnswerIndex;
+    public void setCorrectAnswerId(int correctAnswerId) {
+        this.correctAnswerId = correctAnswerId;
     }
 
-    public String getThema() {
-        return thema;
-    }
-
-    public void setThema(String thema) {
-        this.thema = thema;
-    }
-
-    public String getKapitel() {
-        return kapitel;
-    }
-
-    public void setKapitel(String kapitel) {
-        this.kapitel = kapitel;
-    }
 
     public String getHint() {
         return hint;
@@ -118,5 +105,40 @@ public class Question extends RealmObject{
         this.hint = hint;
     }
 
+    public int getChapter() {
+        return chapter;
+    }
+
+    public void setChapter(int chapter) {
+        this.chapter = chapter;
+    }
+
+    public void setRightAnswered(boolean rightAnswered) {
+        isRightAnswered = rightAnswered;
+    }
+
+    public boolean isBookingEntry() {
+        return isBookingEntry;
+    }
+
+    public void setBookingEntry(boolean bookingEntry) {
+        isBookingEntry = bookingEntry;
+    }
+
+    public int getFromPage() {
+        return fromPage;
+    }
+
+    public void setFromPage(int fromPage) {
+        this.fromPage = fromPage;
+    }
+
+    public int getToPage() {
+        return toPage;
+    }
+
+    public void setToPage(int toPage) {
+        this.toPage = toPage;
+    }
 
 }

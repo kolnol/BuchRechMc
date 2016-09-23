@@ -53,24 +53,29 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Fabric Testing Tool
         Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
+        //Set Layout
         setContentView(R.layout.activity_main);
-
+        //Set the vertical orientation of the screen
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-
+        //Element for tabs content
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
+        //Element for tabs
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-
-        contextMain=this;
+        //Initialization of context for the whole app
+        //TODO why do we need it?
+        contextMain = this;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //Floating button setup
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,84 +95,34 @@ public class MainActivity extends AppCompatActivity
 
 
         //Check if it is first run
-        Boolean isFirstRun=getSharedPreferences("Preference",MODE_PRIVATE)
+        Boolean isFirstRun = getSharedPreferences("Preference", MODE_PRIVATE)
                 .getBoolean("isFirstRun", true);
-        //If it is first run the we have to initialize the realm database
-        if(isFirstRun){
-            String path = copyBundledRealmFile(this.getResources().openRawResource(R.raw.default0),"default0");
+        //If it is first run then we have to initialize the realm database
+        if (isFirstRun) {
+            String path = copyBundledRealmFile(this.getResources().openRawResource(R.raw.default0), "default0");
 
             //Set the trigger to false
-            getSharedPreferences("Preference",MODE_PRIVATE).edit()
-                    .putBoolean("isFirstRun",false).commit();
+            getSharedPreferences("Preference", MODE_PRIVATE).edit()
+                    .putBoolean("isFirstRun", false).commit();
         }
 
+        //Todo delete it so we dont need to initialize database every time. Only for first run
         initDatabase();
 
     }
 
-    private void initRealmTest(){
-        RealmConfiguration config1 = new RealmConfiguration.Builder(this)
-                .name("default0")
-                .schemaVersion(0)
-                .migration(new Migration())
-                .build();
-
-        try{
-            realm = Realm.getInstance(config1);
-        }catch (RealmError er){
-            Snackbar.make(this.viewPager, er.getMessage(),Snackbar.LENGTH_SHORT).show();
-        }
-
-        InitializationRealm.getInstance(realm).initRealm();
-    }
-
+    /////////////////////
+    //Activity View Setup
+    /////////////////////
     private void setupViewPager(ViewPager viewPager) {
         TabViewPagerAdapter adapter = new TabViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new QuestionListTabFragment(), "MC");// Fragment and Title
 
-        // todo uncomment this
+        // todo uncomment this for exercise tab
         // adapter.addFragment(new ExerciseListTabFragment(), "Übung");
 
         viewPager.setAdapter(adapter);
     }
-
-    private String copyBundledRealmFile(InputStream inputStream, String outFileName) {
-        try {
-            File file = new File(this.getFilesDir(), outFileName);
-            FileOutputStream outputStream = new FileOutputStream(file);
-            byte[] buf = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = inputStream.read(buf)) > 0) {
-                outputStream.write(buf, 0, bytesRead);
-            }
-            outputStream.close();
-            return file.getAbsolutePath();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private void initDatabase() {
-        RealmConfiguration config1 = new RealmConfiguration.Builder(this)
-                .name("default0")
-                .schemaVersion(0)
-                .migration(new Migration())
-                .build();
-
-        try{
-            realm = Realm.getInstance(config1);
-        }catch (RealmError er){
-            Snackbar.make(this.viewPager, er.getMessage(),Snackbar.LENGTH_SHORT).show();
-        }
-
-        //if it is an update and database was not copied then copy
-        if(realm.allObjects(Question.class).size()==0){
-            String path = copyBundledRealmFile(this.getResources().openRawResource(R.raw.default0),"default0");
-        }
-
-    }
-
 
     @Override
     public void onBackPressed() {
@@ -202,10 +157,6 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    private void goToQuestionBucket() {
-        Intent intent = new Intent(this,BucketListActivity.class);
-        startActivity(intent);
-    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -235,12 +186,12 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void changeAdapter(int from,int to){
-        results = realm.where(Question.class).between("id", from, to).findAll();
-
-        QuestionsAdapterRecycleView adapter = new QuestionsAdapterRecycleView(results,this);
-
-        //recyclerView.setAdapter(adapter);
+    /////////////////////
+    //Help Functions
+    /////////////////////
+    private void goToQuestionBucket() {
+        Intent intent = new Intent(this,BucketListActivity.class);
+        startActivity(intent);
     }
 
     private void readPDF(String pdfName){
@@ -255,6 +206,70 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+    private void changeAdapter(int from,int to){
+        results = realm.where(Question.class).between("id", from, to).findAll();
+
+        QuestionsAdapterRecycleView adapter = new QuestionsAdapterRecycleView(results,this);
+
+        //recyclerView.setAdapter(adapter);
+    }
+
+    /////////////////////
+    //Database setup
+    /////////////////////
+    private void initRealmTest(){
+        RealmConfiguration config1 = new RealmConfiguration.Builder(this)
+                .name("default0")
+                .schemaVersion(0)
+                .migration(new Migration())
+                .build();
+
+        try{
+            realm = Realm.getInstance(config1);
+        }catch (RealmError er){
+            Snackbar.make(this.viewPager, er.getMessage(),Snackbar.LENGTH_SHORT).show();
+        }
+
+        InitializationRealm.getInstance(realm).initRealm();
+    }
+
+    private String copyBundledRealmFile(InputStream inputStream, String outFileName) {
+        try {
+            File file = new File(this.getFilesDir(), outFileName);
+            FileOutputStream outputStream = new FileOutputStream(file);
+            byte[] buf = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buf)) > 0) {
+                outputStream.write(buf, 0, bytesRead);
+            }
+            outputStream.close();
+            return file.getAbsolutePath();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private void initDatabase() {
+        RealmConfiguration config1 = new RealmConfiguration.Builder(this)
+                .name("default0")
+                .schemaVersion(0)
+                .deleteRealmIfMigrationNeeded()
+                //.migration(new Migration())
+                .build();
+
+        try{
+            realm = Realm.getInstance(config1);
+        }catch (RealmError er){
+            Snackbar.make(this.viewPager, er.getMessage(),Snackbar.LENGTH_SHORT).show();
+        }
+
+        //if it is an update and database was not copied then copy
+        if(realm.where(Question.class).findAll().size()==0){
+            String path = copyBundledRealmFile(this.getResources().openRawResource(R.raw.default0),"default0");
+        }
+
+    }
 }
 
 

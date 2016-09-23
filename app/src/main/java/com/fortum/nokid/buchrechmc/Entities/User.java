@@ -1,45 +1,28 @@
 package com.fortum.nokid.buchrechmc.Entities;
 
+import io.realm.RealmCollection;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 
-
 public class User extends RealmObject{
-    private String name;
-    private int score;
-    private RealmList<Question> doneQuestions;
+
     private int id;
 
-    public User() {
-        this.score=0;
-        this.doneQuestions=new RealmList<>();
+    private String lastName;
 
-    }
+    private String firstName;
 
-    public String getName() {
+    private String password;
 
-        return name;
-    }
+    private String email;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    private String role;
 
-    public int getScore() {
-        return score;
-    }
+    private String token;
 
-    public void setScore(int score) {
-        this.score = score;
-    }
+    private RealmList<UserQuestion> answeredQuestions;
 
-    public RealmList<Question> getDoneQuestions() {
-        return doneQuestions;
-    }
-
-    public void setDoneQuestions(RealmList<Question> doneQuestions) {
-        this.doneQuestions = doneQuestions;
-    }
+    public User() { }
 
     public int getId() {
         return id;
@@ -48,4 +31,62 @@ public class User extends RealmObject{
     public void setId(int id) {
         this.id = id;
     }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public RealmList<UserQuestion> getAnsweredQuestions() {
+        return answeredQuestions;
+    }
+
+    public void setAnsweredQuestions(RealmList<UserQuestion> answeredQuestions) {
+        this.answeredQuestions = answeredQuestions;
+    }
+
+
 }

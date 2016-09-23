@@ -22,7 +22,7 @@ public class SprintResultActivity extends AppCompatActivity {
         resultTextView=(TextView) findViewById(R.id.resultTextView);
         finishButton=(Button) findViewById(R.id.sprintFinishButton);
 
-        Sprint sprint = MainActivity.realm.allObjects(Sprint.class).last();
+        Sprint sprint = MainActivity.realm.where(Sprint.class).findAll().last();
 
         resultTextView.setText(SprintLogic.generateResult(sprint));
 

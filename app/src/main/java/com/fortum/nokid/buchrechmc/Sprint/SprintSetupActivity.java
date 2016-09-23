@@ -51,7 +51,7 @@ public class SprintSetupActivity extends AppCompatActivity {
         intent.putExtra("isSprint", true);
 
         realm.beginTransaction();
-        realm.clear(Sprint.class);
+        realm.where(Sprint.class).findAll().deleteAllFromRealm();
 
         Sprint sprint=new Sprint(count);
         SprintLogic.initQuestions(sprint);
@@ -64,7 +64,7 @@ public class SprintSetupActivity extends AppCompatActivity {
 
     private boolean isValid(View v,int count){
 
-        int realmSize= MainActivity.realm.allObjects(Question.class).size();
+        int realmSize= MainActivity.realm.where(Question.class).findAll().size();
 
         if(count>realmSize){
             Snackbar.make(v, "Anzahl an Fragen ist zu groß. Maximale Anzahl ist "+realmSize, Snackbar.LENGTH_LONG).show();

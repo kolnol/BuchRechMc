@@ -764,7 +764,7 @@ public class InitializationRealm {
 
 
         realm.beginTransaction();
-        realm.clear(Question.class);
+        realm.where(Question.class).findAll().deleteAllFromRealm();
         realm.copyToRealm(question1);
         realm.copyToRealm(question2);
         realm.copyToRealm(question3);
