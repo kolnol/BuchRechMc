@@ -1,27 +1,25 @@
 package com.fortum.nokid.buchrechmc.Entities;
 
 import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
 /**
- * Created by Nokid on 22/08/16.
+ * Created by Nokid on 19/10/2016.
  */
-public class UserQuestion extends RealmObject{
-    @PrimaryKey
+
+public class NewUserQuestion extends RealmObject{
     private int id;
 
-    private User user;
+    private NewUser user;
 
-    private Question question;
+    private NewQuestion question;
 
     private boolean tried;
 
     private boolean correctlyAnswered;
 
-    private Answer givenAnswer;
+    private NewAnswer givenAnswer;
 
-
-    public UserQuestion() {
+    public NewUserQuestion() {
     }
 
     public int getId() {
@@ -32,19 +30,19 @@ public class UserQuestion extends RealmObject{
         this.id = id;
     }
 
-    public User getUser() {
+    public NewUser getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(NewUser user) {
         this.user = user;
     }
 
-    public Question getQuestion() {
+    public NewQuestion getQuestion() {
         return question;
     }
 
-    public void setQuestion(Question question) {
+    public void setQuestion(NewQuestion question) {
         this.question = question;
     }
 
@@ -64,11 +62,11 @@ public class UserQuestion extends RealmObject{
         this.correctlyAnswered = correctlyAnswered;
     }
 
-    public Answer getGivenAnswer() {
+    public NewAnswer getGivenAnswer() {
         return givenAnswer;
     }
 
-    public void setGivenAnswer(Answer givenAnswer) {
+    public void setGivenAnswer(NewAnswer givenAnswer) {
         this.givenAnswer = givenAnswer;
     }
 }

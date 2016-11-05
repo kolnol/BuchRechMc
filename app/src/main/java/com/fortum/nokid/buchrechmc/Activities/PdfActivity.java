@@ -87,10 +87,10 @@ public class PdfActivity extends Activity {
     }
 
     private void goToQuestionsList(Page page){
-        Intent intent = new Intent(MainActivity.contextMain,FullQuestionActivity.class);
+        Intent intent = new Intent(this.getApplicationContext(),FullQuestionActivity.class);
         intent.putExtra("position", 0);
         intent.putExtra("fromPosition", page.getFrom());
         intent.putExtra("toPosition", page.getTo());
-        MainActivity.contextMain.startActivity(intent);
+        this.getApplicationContext().startActivity(intent);
     }
 }

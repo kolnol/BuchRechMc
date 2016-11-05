@@ -20,23 +20,27 @@ import android.view.View;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.ndk.CrashlyticsNdk;
-import com.fortum.nokid.buchrechmc.Adapters.QuestionsAdapterRecycleView;
 import com.fortum.nokid.buchrechmc.Adapters.TabViewPagerAdapter;
+import com.fortum.nokid.buchrechmc.AsyncTasks.GetAllQuestionsTask;
+import com.fortum.nokid.buchrechmc.AsyncTasks.LoginTask;
+
+import com.fortum.nokid.buchrechmc.Entities.Answer;
 import com.fortum.nokid.buchrechmc.Entities.Question;
+import com.fortum.nokid.buchrechmc.Entities.User;
 import com.fortum.nokid.buchrechmc.Fragments.QuestionListTabFragment;
-import com.fortum.nokid.buchrechmc.InitializationRealm;
 import com.fortum.nokid.buchrechmc.R;
-import com.fortum.nokid.buchrechmc.RealmClasses.Migration;
 import com.fortum.nokid.buchrechmc.Sprint.SprintSetupActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.ExecutionException;
 
 import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 import io.realm.exceptions.RealmError;
 
@@ -45,14 +49,17 @@ public class MainActivity extends AppCompatActivity
     public static Context contextMain;
     public static Realm realm;
 
+
     private RealmResults<Question> results;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-
+    private Toolbar toolbar;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         //Fabric Testing Tool
         Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
         //Set Layout
@@ -60,21 +67,47 @@ public class MainActivity extends AppCompatActivity
         //Set the vertical orientation of the screen
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+
+        setupUser();
+        setupViewPager();
+        setupTabLayout();
+        setupToolBar();
+        setupFloatingButton();
+        setupDrawerLayout();
+        setupNavigationView();
+        setupDatabase();
+        saveUser();
+
+    }
+
+    private void setupUser() {
+        Intent intent = getIntent();
+        String sessionId = intent.getStringExtra("sessionId");
+        String email = intent.getStringExtra("email");
+        String password = intent.getStringExtra("password");
+
+        this.user = new User(password, email, sessionId);
+        this.user.getEmail();
+    }
+
+    private void setupViewPager() {
         //Element for tabs content
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
+    }
 
+    private void setupTabLayout() {
         //Element for tabs
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+    }
 
-        //Initialization of context for the whole app
-        //TODO why do we need it?
-        contextMain = this;
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    private void setupToolBar() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+    }
 
+    private void setupFloatingButton() {
         //Floating button setup
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -83,32 +116,57 @@ public class MainActivity extends AppCompatActivity
                 startSprint();
             }
         });
+    }
 
+    private void setupDrawerLayout() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+    }
 
+    private void setupNavigationView() {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
 
-
+    private void setupDatabase() {
+        //Initialization of Realm
+        Realm.init(this);
+        realm = Realm.getDefaultInstance();
         //Check if it is first run
         Boolean isFirstRun = getSharedPreferences("Preference", MODE_PRIVATE)
                 .getBoolean("isFirstRun", true);
         //If it is first run then we have to initialize the realm database
+        setupUser();
         if (isFirstRun) {
-            String path = copyBundledRealmFile(this.getResources().openRawResource(R.raw.default0), "default0");
+
+            fillDatabase();
 
             //Set the trigger to false
             getSharedPreferences("Preference", MODE_PRIVATE).edit()
-                    .putBoolean("isFirstRun", false).commit();
+                    .putBoolean("isFirstRun", false).apply();//todo change to false
         }
+    }
 
-        //Todo delete it so we dont need to initialize database every time. Only for first run
-        initDatabase();
+    private void fillDatabase() {
+        try {
+            GetAllQuestionsTask getAllQuestion = new GetAllQuestionsTask(this.getApplicationContext());
+            getAllQuestion.execute(user.getSessionId());
+            realm.beginTransaction();
+            realm.createOrUpdateAllFromJson(Question.class, getAllQuestion.get());
+            realm.commitTransaction();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
 
+    private void saveUser(){
+        realm.beginTransaction();
+        realm.delete(User.class);
+        realm.copyToRealm(user);
+        realm.commitTransaction();
     }
 
     /////////////////////
@@ -206,32 +264,9 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    private void changeAdapter(int from,int to){
-        results = realm.where(Question.class).between("id", from, to).findAll();
-
-        QuestionsAdapterRecycleView adapter = new QuestionsAdapterRecycleView(results,this);
-
-        //recyclerView.setAdapter(adapter);
-    }
-
     /////////////////////
     //Database setup
     /////////////////////
-    private void initRealmTest(){
-        RealmConfiguration config1 = new RealmConfiguration.Builder(this)
-                .name("default0")
-                .schemaVersion(0)
-                .migration(new Migration())
-                .build();
-
-        try{
-            realm = Realm.getInstance(config1);
-        }catch (RealmError er){
-            Snackbar.make(this.viewPager, er.getMessage(),Snackbar.LENGTH_SHORT).show();
-        }
-
-        InitializationRealm.getInstance(realm).initRealm();
-    }
 
     private String copyBundledRealmFile(InputStream inputStream, String outFileName) {
         try {
@@ -251,23 +286,23 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initDatabase() {
-        RealmConfiguration config1 = new RealmConfiguration.Builder(this)
-                .name("default0")
-                .schemaVersion(0)
-                .deleteRealmIfMigrationNeeded()
-                //.migration(new Migration())
-                .build();
-
-        try{
-            realm = Realm.getInstance(config1);
-        }catch (RealmError er){
-            Snackbar.make(this.viewPager, er.getMessage(),Snackbar.LENGTH_SHORT).show();
-        }
-
-        //if it is an update and database was not copied then copy
-        if(realm.where(Question.class).findAll().size()==0){
-            String path = copyBundledRealmFile(this.getResources().openRawResource(R.raw.default0),"default0");
-        }
+//        RealmConfiguration config1 = new RealmConfiguration.Builder(this)
+//                .name("default0")
+//                .schemaVersion(0)
+//                .deleteRealmIfMigrationNeeded()
+//                //.migration(new Migration())
+//                .build();
+//        try{
+//            realm = Realm.getInstance(config1);
+//        }catch (RealmError er){
+//            Snackbar.make(this.viewPager, er.getMessage(),Snackbar.LENGTH_SHORT).show();
+//        }
+//        String path3 = copyBundledRealmFile(this.getResources().openRawResource(R.raw.default0), "default0");
+//
+//        //if it is an update and database was not copied then copy
+//        if(realm.where(Question.class).findAll().size()==0){
+//            String path = copyBundledRealmFile(this.getResources().openRawResource(R.raw.default0),"default0");
+//        }
 
     }
 }

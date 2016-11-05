@@ -20,4 +20,15 @@
     <string name="thirdExerciseName">Übung JA 1 und Teil von JA 2</string>
     <string name="fourthExerciseName">Übung JA 2</string>
     <string name="fifthExerciseName">Übung JA 3</string>
+
+    <!--Server API links-->
+    <string name="baseServerUrl">http://85.214.195.89:8080</string>
+    <string name="loginApiUrl">/login</string>
+    <string name="baseApiUrl">/api</string>
+    <!--Questions API links-->
+    <string name="questionsApiUrl">/questions</string>
+    <string name="getAllQuestionsApiUrl">/getAll</string>
+    <!--Users API links-->
+    <string name="usersApiUrl">/users</string>
+    <string name="registerApiUrl">/register</string>
 </resources>

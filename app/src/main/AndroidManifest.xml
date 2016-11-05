@@ -1,30 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.fortum.nokid.buchrechmc" >
-
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:allowBackup="true"
-        android:icon="@drawable/icon_accounting"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:name=".BuchRechMcApplication">
         <activity
             android:name=".Activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+
+        <activity android:name=".Activities.FullQuestionActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.BucketListActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".Activities.PdfActivity"></activity>
+        <activity android:name=".Sprint.SprintSetupActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".Sprint.SprintResultActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".Activities.LoginActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".Activities.FullQuestionActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".Activities.BucketListActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".Activities.PdfActivity"></activity>
-        <activity android:name=".Sprint.SprintSetupActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".Sprint.SprintResultActivity" android:screenOrientation="portrait"></activity>
-
+        <activity android:name=".Activities.SignupActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".Activities.FullExerciseActivity" android:screenOrientation="portrait"></activity>
 
         <meta-data

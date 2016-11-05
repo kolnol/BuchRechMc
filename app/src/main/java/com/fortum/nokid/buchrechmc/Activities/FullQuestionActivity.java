@@ -55,7 +55,7 @@ public class FullQuestionActivity extends AppCompatActivity {
 
         //Init DB and find Question
         if(!isSprint){
-            result=realm.where(Question.class).between("id",from,to).findAllSorted("id");
+            result = realm.where(Question.class).between("id",from,to).findAllSorted("id");
         }else{
             sprint=realm.where(Sprint.class).findAll().last();
             result=sprint.getQuestions().where().findAll();
@@ -64,10 +64,10 @@ public class FullQuestionActivity extends AppCompatActivity {
 
         //Set Question and answers to view
         textView.setText(question.getContent());
-        answerA.setText(question.getPossibleAnswers().get(0).getString());
-        answerB.setText(question.getPossibleAnswers().get(1).getString());
-        answerC.setText(question.getPossibleAnswers().get(2).getString());
-        answerD.setText(question.getPossibleAnswers().get(3).getString());
+        answerA.setText(question.getPossibleAnswers().get(0).getAnswer());
+        answerB.setText(question.getPossibleAnswers().get(1).getAnswer());
+        answerC.setText(question.getPossibleAnswers().get(2).getAnswer());
+        answerD.setText(question.getPossibleAnswers().get(3).getAnswer());
 
         //Set for every answer function to check Answer
         answerA.setOnClickListener(new View.OnClickListener() {
@@ -142,23 +142,25 @@ public class FullQuestionActivity extends AppCompatActivity {
     }
 
     private void goToPrevQuestion(View v, int position,int from,int to) {
-        Intent intent = new Intent(MainActivity.contextMain,FullQuestionActivity.class);
+        Intent intent = new Intent( this.getApplicationContext(), FullQuestionActivity.class);
         intent.putExtra("position", position - 1);
         intent.putExtra("fromPosition", from);
         intent.putExtra("toPosition", to);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//Todo delete the flag
 
-        MainActivity.contextMain.startActivity(intent);
+        this.getApplicationContext().startActivity(intent);
     }
 
     private void goToNextQuestion(View v,int position,int from,int to) {
-        Intent intent = new Intent(MainActivity.contextMain,FullQuestionActivity.class);
+        Intent intent = new Intent(this.getApplicationContext(), FullQuestionActivity.class);
         intent.putExtra("position", position + 1);
         intent.putExtra("fromPosition", from);
         intent.putExtra("toPosition", to);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//Todo delete the flag
         if(isSprint){
             intent.putExtra("isSprint",true);
         }
-        MainActivity.contextMain.startActivity(intent);
+        this.getApplicationContext().startActivity(intent);
     }
 
     public void isRight(Button button,int answer){

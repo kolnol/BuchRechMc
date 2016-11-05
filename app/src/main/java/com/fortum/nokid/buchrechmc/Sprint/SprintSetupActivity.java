@@ -46,7 +46,7 @@ public class SprintSetupActivity extends AppCompatActivity {
     }
 
     private void goToFullSprintActivity(int count) {
-        Intent intent = new Intent(MainActivity.contextMain,FullQuestionActivity.class);
+        Intent intent = new Intent(this.getApplicationContext(),FullQuestionActivity.class);
         Realm realm= MainActivity.realm;
         intent.putExtra("isSprint", true);
 

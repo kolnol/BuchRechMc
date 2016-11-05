@@ -1,15 +1,18 @@
 package com.fortum.nokid.buchrechmc.Entities;
 
+import java.util.List;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
+/**
+ * Created by Nokid on 19/10/2016.
+ */
 
-public class Question extends RealmObject{
-    @PrimaryKey
+public class NewQuestion extends RealmObject {
     private long id;
     private String content;
-    private RealmList<Answer> possibleAnswers;
+    private RealmList<NewAnswer> possibleAnswers;
 
     private int correctAnswerId;
     private int chapter;
@@ -19,56 +22,22 @@ public class Question extends RealmObject{
     private int fromPage;
     private int toPage;
 
-
-
-    public Question() {
+    public NewQuestion() {
     }
 
-    public Question(String content, RealmList<Answer> possibleAnswers, int correctAnswerId, int chapter, String hint, boolean isBookingEntry, int fromPage, int toPage) {
+    public NewQuestion(long id, String content, RealmList<NewAnswer> possibleAnswers, int correctAnswerId, int chapter, String hint, boolean isRightAnswered, boolean isBookingEntry, int fromPage, int toPage) {
+        this.id = id;
         this.content = content;
         this.possibleAnswers = possibleAnswers;
         this.correctAnswerId = correctAnswerId;
         this.chapter = chapter;
         this.hint = hint;
+        this.isRightAnswered = isRightAnswered;
         this.isBookingEntry = isBookingEntry;
         this.fromPage = fromPage;
         this.toPage = toPage;
     }
 
-    public Question(long id, String content, RealmList<Answer> possibleAnswers, int correctAnswerId, String hint) {
-        this.id = id;
-        this.content = content;
-        this.possibleAnswers = possibleAnswers;
-        this.correctAnswerId = correctAnswerId;
-        this.hint = hint;
-        isRightAnswered=false;
-    }
-
-
-
-    public Question(int id, String content, RealmList<Answer> possibleAnswers, int correctAnswerId){
-        this.id=id;
-        this.content = content;
-        this.possibleAnswers=possibleAnswers;
-        this.correctAnswerId = correctAnswerId;
-        isRightAnswered=false;
-    }
-
-    public boolean isRightAnswered() {
-        return isRightAnswered;
-    }
-
-    public void setIsRightAnswered(boolean isRightAnswered) {
-        this.isRightAnswered = isRightAnswered;
-    }
-
-    public RealmList<Answer> getPossibleAnswers() {
-        return possibleAnswers;
-    }
-
-    public void setPossibleAnswers(RealmList<Answer> possibleAnswers) {
-        this.possibleAnswers = possibleAnswers;
-    }
     public long getId() {
         return id;
     }
@@ -85,6 +54,14 @@ public class Question extends RealmObject{
         this.content = content;
     }
 
+    public RealmList<NewAnswer> getPossibleAnswers() {
+        return possibleAnswers;
+    }
+
+    public void setPossibleAnswers(RealmList<NewAnswer> possibleAnswers) {
+        this.possibleAnswers = possibleAnswers;
+    }
+
     public int getCorrectAnswerId() {
         return correctAnswerId;
     }
@@ -93,6 +70,13 @@ public class Question extends RealmObject{
         this.correctAnswerId = correctAnswerId;
     }
 
+    public int getChapter() {
+        return chapter;
+    }
+
+    public void setChapter(int chapter) {
+        this.chapter = chapter;
+    }
 
     public String getHint() {
         return hint;
@@ -102,12 +86,8 @@ public class Question extends RealmObject{
         this.hint = hint;
     }
 
-    public int getChapter() {
-        return chapter;
-    }
-
-    public void setChapter(int chapter) {
-        this.chapter = chapter;
+    public boolean isRightAnswered() {
+        return isRightAnswered;
     }
 
     public void setRightAnswered(boolean rightAnswered) {
@@ -137,5 +117,4 @@ public class Question extends RealmObject{
     public void setToPage(int toPage) {
         this.toPage = toPage;
     }
-
 }

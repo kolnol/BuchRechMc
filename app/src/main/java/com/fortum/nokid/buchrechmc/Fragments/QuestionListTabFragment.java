@@ -13,8 +13,12 @@ import android.widget.Toast;
 
 import com.fortum.nokid.buchrechmc.Activities.MainActivity;
 import com.fortum.nokid.buchrechmc.Adapters.QuestionsAdapterRecycleView;
+import com.fortum.nokid.buchrechmc.AsyncTasks.GetAllQuestionsTask;
 import com.fortum.nokid.buchrechmc.Entities.Question;
+import com.fortum.nokid.buchrechmc.Entities.User;
 import com.fortum.nokid.buchrechmc.R;
+
+import java.util.concurrent.ExecutionException;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -73,6 +77,23 @@ public class QuestionListTabFragment extends Fragment implements SwipeRefreshLay
         // Your code to refresh the list here.
         // Make sure you call swipeContainer.setRefreshing(false)
         // once the network request has completed successfully.
-        Toast.makeText(MainActivity.contextMain,"Swipe",Toast.LENGTH_LONG).show();
+        Realm realm = Realm.getDefaultInstance();//Todo refactor it
+        User user = realm.where(User.class).findFirst();
+        Toast.makeText(this.getActivity().getApplicationContext(),"Getting Questions",Toast.LENGTH_LONG).show();
+        GetAllQuestionsTask getAllQuestionsTask = new GetAllQuestionsTask(this.getActivity().getApplicationContext());
+        getAllQuestionsTask.execute(user.getSessionId());
+
+        try {
+            realm.beginTransaction();
+            realm.createOrUpdateAllFromJson(Question.class, getAllQuestionsTask.get());
+            realm.commitTransaction();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+            Toast.makeText(this.getActivity().getApplicationContext(),"There was a problem with connection.",Toast.LENGTH_LONG).show();
+        }
+
+        swipeContainer.setRefreshing(false);
     }
 }

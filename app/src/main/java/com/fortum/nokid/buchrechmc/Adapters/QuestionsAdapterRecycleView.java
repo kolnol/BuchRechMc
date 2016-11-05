@@ -33,16 +33,6 @@ public class QuestionsAdapterRecycleView extends RecyclerView.Adapter<QuestionsA
         public void setItem(Question question){
             this.question = question;
             txtViewTitle.setText(question.getContent());
-            /*if(aktualleKapitel.equals("1.0")){
-                txtViewTitle.setText("Grundlagen");
-                this.aktualleKapitel="1.1";
-            }else if(!aktualleKapitel.equals(question.getKapitel())){
-                txtViewTitle.setText("Kapitel"+question.getKapitel().substring(0,1));
-                this.aktualleKapitel=question.getKapitel().substring(0,1);
-            }else{
-                txtViewTitle.setText(question.getContent());
-            }*/
-
         }
 
     }
@@ -78,7 +68,7 @@ public class QuestionsAdapterRecycleView extends RecyclerView.Adapter<QuestionsA
     }
 
     public void goToFullQuestion(View v,int position) {
-        Intent intent = new Intent(context,FullQuestionActivity.class);
+        Intent intent = new Intent(context, FullQuestionActivity.class);
         intent.putExtra("position", position);
         context.startActivity(intent);
     }

@@ -60,7 +60,7 @@ public class SprintLogic {
         HashMap<String,Integer> rightMap=new HashMap<>();
         for(int i=0;i<trigger.size();i++){
             if(trigger.get(i).isValue()){
-                String kapitel=questions.get(i).getKapitel();
+                String kapitel=questions.get(i).getChapter()+"";
                 if(rightMap.containsKey(kapitel)){
                     rightMap.put(kapitel,rightMap.get(kapitel)+1);
                 }else{
