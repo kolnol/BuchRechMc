@@ -1,16 +1,14 @@
 package com.fortum.nokid.buchrechmc.Entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import io.realm.RealmCollection;
 import io.realm.RealmList;
 import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
-public class User extends RealmObject{
-    @JsonIgnore
-    @PrimaryKey
+/**
+ * Created by Nokid on 19/10/2016.
+ */
+
+public class NewUser extends RealmObject{
+
     private int id;
 
     private String lastName;
@@ -25,28 +23,11 @@ public class User extends RealmObject{
 
     private String token;
 
-    @JsonIgnore
-    private RealmList<UserQuestion> answeredQuestions;
+    private RealmList<NewUserQuestion> answeredQuestions;
 
-    private String sessionId;
-
-    public User() { }
-
-
-
-    public User(String password, String email, String sessionId) {
-
-        this.password = password;
-        this.email = email;
-        this.sessionId = sessionId;
+    public NewUser() {
     }
 
-    public User(String lastName, String firstName, String password, String email){
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.password = password;
-        this.email = email;
-    }
     public int getId() {
         return id;
     }
@@ -103,19 +84,23 @@ public class User extends RealmObject{
         this.token = token;
     }
 
-    public RealmList<UserQuestion> getAnsweredQuestions() {
+    public RealmList<NewUserQuestion> getAnsweredQuestions() {
         return answeredQuestions;
     }
 
-    public void setAnsweredQuestions(RealmList<UserQuestion> answeredQuestions) {
+    public void setAnsweredQuestions(RealmList<NewUserQuestion> answeredQuestions) {
         this.answeredQuestions = answeredQuestions;
     }
 
-    public String getSessionId() {
-        return sessionId;
-    }
+    public NewUser(int id, String lastName, String firstName, String password, String email, String role, String token, RealmList<NewUserQuestion> answeredQuestions) {
 
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
+        this.id = id;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+        this.token = token;
+        this.answeredQuestions = answeredQuestions;
     }
 }

@@ -33,6 +33,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/notice.txt'
+    }
 }
 
 dependencies {
@@ -41,7 +48,10 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'com.android.support:design:22.2.1'
     compile 'com.android.support:recyclerview-v7:22.2.1'
+    compile 'org.springframework.android:spring-android-rest-template:1.0.1.RELEASE'
     compile 'com.joanzapata.pdfview:android-pdfview:1.0.4@aar'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.8.4'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.8.4'
     compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
         transitive = true;
     }
